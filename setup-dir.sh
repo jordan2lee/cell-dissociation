@@ -15,3 +15,4 @@ mkdir raw-data
 
 mkdir sandbox
 
+mkdir notes

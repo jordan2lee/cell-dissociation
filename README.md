@@ -17,3 +17,5 @@ Set up workspace by running `./setup-dir.sh` which will create the following nes
 `raw-data/`
 
 `sandbox/`
+
+`notes/`
