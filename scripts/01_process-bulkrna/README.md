@@ -13,9 +13,9 @@ Development environment will occur in a virtual environment and finalized script
 
 # Raw read QC
 
-Generate summary of reads using FastQC GUI
+Generate summary of reads using FastQC GUI. Manually save report file.
 
-Output: 2 files in `01_readqc` for each sequence file
+Output: 2 files in `data/01_readqc/` for each sequence file
 
 # Filter and/or trim poor reads
 
