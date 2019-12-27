@@ -10,13 +10,20 @@ Pipeline assumes that user has properly installed python3 and Java. And addition
 
 Development environment will occur in a virtual environment and finalized scripts will be deployed using Docker
 
+# Demultiplex reads
 
-# Raw read QC
+# Adaptor trimming
+
+# Quality filtering and trimming
+
+1.  Raw read QC
 
 Generate summary of reads using FastQC GUI. Manually save report file.
 
 Output: 2 files in `data/01_readqc/` for each sequence file
 
-# Filter and/or trim poor reads
+2. Filter and/or trim poor reads
 
+# K-mer filtering
 
+# K-mer normalization
