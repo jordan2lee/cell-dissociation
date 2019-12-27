@@ -27,3 +27,21 @@ Output: 2 files in `data/01_readqc/` for each sequence file
 # K-mer filtering
 
 # K-mer normalization
+
+# Alignment
+
+# QC BAM file
+
+# Approximate strandedness
+
+# Generate count matrices
+
+# Extended
+
+The analysis of this section will not be used for input of downstream cross project analysis. Instead this section allows us to examine our count matrices - and consider if hyperparameters in the above steps should be altered to improve quality of count matrices
+
+## Normalize
+
+## Dimensionality reduction
+
+## QC for odd data
