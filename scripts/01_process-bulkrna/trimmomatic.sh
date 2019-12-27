@@ -4,15 +4,20 @@
 # Filter/trim raw reads
 #   Man: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf
 ############
-inpath=${1}
-outpath=${2}
+input_f1=${1}
+input_f2=${2}
+qual_min_leading=${3}
+qual_min_trailing=${4}
+out_basename=${5}
 
 echo '####################'
 echo 'Filter/trim raw reads - Trimmomatic version'
 # java -jar ../../apps/Trimmomatic-0.39/trimmomatic-0.39.jar -version
 echo '####################'
 
+# Trim for paired end reads
 java -jar ../../apps/Trimmomatic-0.39/trimmomatic-0.39.jar \
-    PE ${inpath}/example_r1-da.fq.gz ${inpath}/example_r2-da.fq.gz \
-    -baseout ${outpath}/example-trim.fq.gz \
-    LEADING:3 TRAILING:3 MINLEN:36
+    PE ${input_f1} ${input_f2} \
+    -baseout ${out_basename} \
+    -phred33 -threads 4 \
+    LEADING:${qual_min_leading} TRAILING:${qual_min_trailing}

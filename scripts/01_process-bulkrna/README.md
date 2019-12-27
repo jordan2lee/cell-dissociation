@@ -22,7 +22,7 @@ Output: 2 files in `data/02_readqc/` for each sequence file
 
 ### Filter and/or trim poor reads
 
-Remove bp as per above QC summary report
+Remove bp as per above QC summary report `trimmomatic.sh`
 
 Output: `data/03_readtrim_and_filter`
 
