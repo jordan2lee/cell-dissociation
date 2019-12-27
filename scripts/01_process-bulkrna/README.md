@@ -16,13 +16,15 @@ Development environment will occur in a virtual environment and finalized script
 
 # Quality filtering and trimming
 
-1.  Raw read QC
+### Raw read QC
 
-Generate summary of reads using FastQC GUI. Manually save report file.
+Generate QC summary report of reads `fastqc.sh`
 
 Output: 2 files in `data/01_readqc/` for each sequence file
 
-2. Filter and/or trim poor reads
+### Filter and/or trim poor reads
+
+Remove bp as per above QC summary report
 
 # K-mer filtering
 
@@ -40,8 +42,8 @@ Output: 2 files in `data/01_readqc/` for each sequence file
 
 The analysis of this section will not be used for input of downstream cross project analysis. Instead this section allows us to examine our count matrices - and consider if hyperparameters in the above steps should be altered to improve quality of count matrices
 
-## Normalize
+### Normalize
 
-## Dimensionality reduction
+### Dimensionality reduction
 
-## QC for odd data
+### QC for odd data
