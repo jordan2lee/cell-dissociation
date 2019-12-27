@@ -24,7 +24,7 @@ Output: 2 files in `data/02_readqc/` for each sequence file
 
 Remove bp as per above QC summary report
 
-Output: `03_readtrim_and_filter`
+Output: `data/03_readtrim_and_filter`
 
 # K-mer filtering
 
