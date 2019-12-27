@@ -18,11 +18,13 @@ Development environment will occur in a virtual environment and finalized script
 
 Generate QC summary report of reads `fastqc.sh`
 
-Output: 2 files in `data/01_readqc/` for each sequence file
+Output: 2 files in `data/02_readqc/` for each sequence file
 
 ### Filter and/or trim poor reads
 
 Remove bp as per above QC summary report
+
+Output: `03_readtrim_and_filter`
 
 # K-mer filtering
 
