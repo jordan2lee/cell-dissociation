@@ -10,9 +10,7 @@ Pipeline assumes that user has properly installed python3 and Java. And addition
 
 Development environment will occur in a virtual environment and finalized scripts will be deployed using Docker
 
-# Demultiplex reads
-
-# Adaptor trimming
+# Demultiplex reads & Adaptor trimming
 
 # Quality filtering and trimming
 
