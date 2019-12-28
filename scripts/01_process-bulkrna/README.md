@@ -14,7 +14,7 @@ Development environment will occur in a virtual environment and finalized script
 
 # Quality filtering and trimming
 
-### Raw read QC
+### Raw read QC Report
 
 Generate QC summary report of reads `fastqc.sh`
 
@@ -25,6 +25,12 @@ Output: 2 files in `data/02_readqc/` for each sequence file
 Remove bp as per above QC summary report `trimmomatic.sh`
 
 Output: `data/03_readtrim_and_filter`
+
+### Filtered/trimmed read QC report
+
+Run again FastQC on the filtered/trimmed read files to see the new quality of the reads
+
+Output: 2 files in `data/03_readtrim_and_filter/` for each sequence file
 
 # K-mer filtering
 
