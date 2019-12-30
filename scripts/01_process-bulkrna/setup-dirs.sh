@@ -9,5 +9,8 @@ mkdir ../../data/01_process-bulkrna/readqc
 mkdir ../../data/01_process-bulkrna/readtrim_and_filter
 # star
 mkdir ../../data/01_process-bulkrna/align
+mkdir ../../data/01_process-bulkrna/align/metadata
+mkdir ../../data/01_process-bulkrna/align/metadata/gtf
+mkdir ../../data/01_process-bulkrna/align/metadata/ref_fa
 mkdir ../../data/01_process-bulkrna/align/genome_indexes
 mkdir ../../data/01_process-bulkrna/align/mapped

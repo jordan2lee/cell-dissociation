@@ -10,6 +10,9 @@ Pipeline assumes that user has properly installed python3 and Java. And addition
 
 Development environment will occur in a virtual environment and finalized scripts will be deployed using Docker
 
+Reference files for alignment (fasta and GTF) need to be manually downloaded prior to running pipeline
+
+
 # Demultiplex reads & Adaptor trimming
 
 # Quality filtering and trimming
@@ -41,6 +44,12 @@ K-mer filtering or K-mer normalization ?
 STAR aligner
 
 ### Building genome indexes
+
+Reference files downloaded: `Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz` and `Homo_sapiens.GRCh38.98.gtf.gz`
+
+Ensembl homo sapien reference fasta and GTF file stored in `data/align/metadata/gtf/` and `data/align/metadata/ref_fa`
+
+Reminder: Reference files need to be manually downloaded prior to running pipeline
 
 Output: `data/align/genome_indexes/`
 

@@ -26,3 +26,10 @@ bash fastqc.sh \
     ../../data/01_process-bulkrna/readtrim_and_filter/example-trim_39_39_1P.fq.gz \
     ../../data/01_process-bulkrna/readtrim_and_filter/example-trim_39_39_2P.fq.gz \
     ../../data/01_process-bulkrna/readtrim_and_filter
+
+# Create genome indexes
+    # reference fa, reference gtf, existing outdir
+bash star.sh \
+    ../../data/01_process-bulkrna/align/metadata/ref_fa/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz \
+    ../../data/01_process-bulkrna/align/metadata/Homo_sapiens.GRCh38.98.gtf.gz \
+    ../../data/01_process-bulkrna/align/genome_indexes
