@@ -15,6 +15,8 @@ Reference files for alignment (fasta and GTF) need to be manually downloaded pri
 
 # Demultiplex reads & Adaptor trimming
 
+Will create script once hear back from wetlab collaborators 
+
 # Quality filtering and trimming
 
 ### Raw read QC Report
