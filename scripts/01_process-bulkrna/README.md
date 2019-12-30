@@ -18,25 +18,35 @@ Development environment will occur in a virtual environment and finalized script
 
 Generate QC summary report of reads `fastqc.sh`
 
-Output: 2 files in `data/02_readqc/` for each sequence file
+Output: 2 files in `data/readqc/` for each sequence file
 
 ### Filter and/or trim poor reads
 
 Remove bp as per above QC summary report `trimmomatic.sh`
 
-Output: `data/03_readtrim_and_filter`
+Output: `data/readtrim_and_filter/`
 
 ### Filtered/trimmed read QC report
 
 Run again FastQC on the filtered/trimmed read files to see the new quality of the reads
 
-Output: 2 files in `data/03_readtrim_and_filter/` for each sequence file
+Output: 2 files in `data/readtrim_and_filter/` for each sequence file
 
-# K-mer filtering
+# Potential intermediate steps
 
-# K-mer normalization
+K-mer filtering or K-mer normalization ?
 
 # Alignment
+
+STAR aligner
+
+### Building genome indexes
+
+Output: `data/align/genome_indexes/`
+
+### Read mapping
+
+Output: `data/align/mapped`
 
 # QC BAM file
 
