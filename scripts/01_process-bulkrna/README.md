@@ -4,7 +4,7 @@ This dir contains the scripts for processing raw sequence reads of bulk RNA-seq 
 
 Primary output of pipeline is in `data/01_process-bulkrna/`
 
-# Prerequisites
+# Prerequisites 
 
 Pipeline assumes that user has properly installed python3 and Java. And additional installations as indicated in `requirements.txt`
 
