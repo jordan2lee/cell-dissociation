@@ -1,0 +1,14 @@
+notes/*
+apps/
+venv3
+requirements.txt
+.DS_Store
+
+scripts/.DS_Store
+scripts/01_process-bulkrna/.DS_Store
+
+raw-data/test-data/
+raw-data/.DS_Store
+
+data/.DS_Store
+data/01_process-bulkrna/*
