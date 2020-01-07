@@ -6,7 +6,6 @@ Primary output of pipeline is in `data/01_process-bulkrna/`
 
 # Prerequisites
 
-
 Pipeline assumes that user has properly installed python3 and Java. And additional installations as indicated in `requirements.txt`
 
 Development environment will occur in a virtual environment and finalized scripts will be deployed using Docker
