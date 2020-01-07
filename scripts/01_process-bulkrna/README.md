@@ -8,7 +8,7 @@ Primary output of pipeline is in `data/01_process-bulkrna/`
 
 Pipeline assumes that user has properly installed python3 and Java. And additional installations as indicated in `requirements.txt`
 
-Development environment will occur in a virtual environment `python3 -m pip install --user virtualenv` and finalized scripts will be deployed using Docker
+Development environment will occur in a virtual environment and finalized scripts will be deployed using Docker
 
 Reference files for alignment (fasta and GTF) need to be manually downloaded prior to running pipeline
 
