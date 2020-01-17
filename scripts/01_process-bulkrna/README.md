@@ -18,13 +18,13 @@ Reference files for alignment (fasta and GTF) need to be manually downloaded pri
 
 `cwl_wrapper.sh`
 
-# Demultiplex reads & Adaptor trimming
+### Demultiplex reads & Adaptor trimming
 
 Will create script once hear back from wetlab collaborators
 
-# Quality filtering and trimming
+### Quality filtering and trimming
 
-### Raw read QC Report
+##### Raw read QC Report
 
 Generate QC summary report of reads `fastqc.cwl`
 
@@ -32,7 +32,7 @@ Output: 2 files in `data/readqc/` for each sequence file
 
 Written for read 1 and read 2 processing
 
-### Filter and/or trim poor reads
+##### Filter and/or trim poor reads
 
 ```
 Remove bp as per above QC summary report `trimmomatic.sh`
@@ -40,7 +40,7 @@ Remove bp as per above QC summary report `trimmomatic.sh`
 Output: `data/readtrim_and_filter/`
 ```
 
-### Filtered/trimmed read QC report
+##### Filtered/trimmed read QC report
 
 ```
 Run again FastQC on the filtered/trimmed read files to see the new quality of the reads
@@ -48,12 +48,12 @@ Run again FastQC on the filtered/trimmed read files to see the new quality of th
 Output: 2 files in `data/readtrim_and_filter/` for each sequence file
 ```
 
-# Alignment
+### Alignment
 
 ```
 STAR aligner
 
-### Building genome indexes
+##### Building genome indexes
 
 Reference files downloaded: `Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz` and `Homo_sapiens.GRCh38.98.gtf.gz`
 
@@ -63,23 +63,23 @@ Reminder: Reference files need to be manually downloaded prior to running pipeli
 
 Output: `data/align/genome_indexes/`
 
-### Read mapping
+##### Read mapping
 
 Output: `data/align/mapped`
 ```
 
-# QC BAM file
+### QC BAM file
 
-# Approximate strandedness
+### Approximate strandedness
 
-# Generate count matrices
+### Generate count matrices
 
-# Extended
+### Extended
 
 The analysis of this section will not be used for input of downstream cross project analysis. Instead this section allows us to examine our count matrices - and consider if hyperparameters in the above steps should be altered to improve quality of count matrices
 
-### Normalize
+##### Normalize
 
-### Dimensionality reduction
+##### Dimensionality reduction
 
-### QC for odd data
+##### QC for odd data
