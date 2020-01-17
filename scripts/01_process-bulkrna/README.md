@@ -4,14 +4,19 @@ This dir contains the scripts for processing raw sequence reads of bulk RNA-seq 
 
 Primary output of pipeline is in `data/01_process-bulkrna/`
 
-# Prerequisites 
+# Prerequisites
 
+```
 Pipeline assumes that user has properly installed python3 and Java. And additional installations as indicated in `requirements.txt`
 
 Development environment will occur in a virtual environment and finalized scripts will be deployed using Docker
 
 Reference files for alignment (fasta and GTF) need to be manually downloaded prior to running pipeline
+```
 
+# Pre-processing Pipeline
+
+`cwl_wrapper.sh`
 
 # Demultiplex reads & Adaptor trimming
 
@@ -21,28 +26,31 @@ Will create script once hear back from wetlab collaborators
 
 ### Raw read QC Report
 
-Generate QC summary report of reads `fastqc.sh`
+Generate QC summary report of reads `fastqc.cwl`
 
 Output: 2 files in `data/readqc/` for each sequence file
 
+Written for read 1 and read 2 processing
+
 ### Filter and/or trim poor reads
 
+```
 Remove bp as per above QC summary report `trimmomatic.sh`
 
 Output: `data/readtrim_and_filter/`
+```
 
 ### Filtered/trimmed read QC report
 
+```
 Run again FastQC on the filtered/trimmed read files to see the new quality of the reads
 
 Output: 2 files in `data/readtrim_and_filter/` for each sequence file
-
-# Potential intermediate steps
-
-K-mer filtering or K-mer normalization ?
+```
 
 # Alignment
 
+```
 STAR aligner
 
 ### Building genome indexes
@@ -58,6 +66,7 @@ Output: `data/align/genome_indexes/`
 ### Read mapping
 
 Output: `data/align/mapped`
+```
 
 # QC BAM file
 
