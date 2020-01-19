@@ -24,7 +24,7 @@ Will create script once hear back from wetlab collaborators
 
 ### Quality filtering and trimming
 
-##### Raw read QC Report
+#### Raw read QC Report
 
 Generate QC summary report of reads `fastqc.cwl`
 
@@ -32,7 +32,7 @@ Output: 2 files in `data/readqc/` for each sequence file
 
 Written for read 1 and read 2 processing
 
-##### Filter and/or trim poor reads
+#### Filter and/or trim poor reads
 
 ```
 Remove bp as per above QC summary report `trimmomatic.sh`
@@ -40,7 +40,7 @@ Remove bp as per above QC summary report `trimmomatic.sh`
 Output: `data/readtrim_and_filter/`
 ```
 
-##### Filtered/trimmed read QC report
+#### Filtered/trimmed read QC report
 
 ```
 Run again FastQC on the filtered/trimmed read files to see the new quality of the reads

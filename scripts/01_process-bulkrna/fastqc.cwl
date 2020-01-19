@@ -8,17 +8,19 @@ requirements:
 baseCommand: [fastqc, -o, ./] # name of command to run
 
 inputs:
-  f1:
+  # Read 1 file
+  input_file:
     type: File
     inputBinding:
       position: 1
 
-  input_type:
+  # format type
+  type:
     type: string
     default: fastq
     inputBinding:
       position: 2
-      prefix: "-f"
+      prefix: "-f" # flag to pass to fastqc command
 
 outputs:
   report:
