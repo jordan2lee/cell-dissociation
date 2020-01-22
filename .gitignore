@@ -4,6 +4,9 @@ venv3
 requirements.txt
 .DS_Store
 
+previous_README.md
+
+
 scripts/.DS_Store
 scripts/01_process-bulkrna/.DS_Store
 
