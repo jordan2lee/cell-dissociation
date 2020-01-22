@@ -5,7 +5,7 @@ requirements.txt
 .DS_Store
 
 previous_README.md
-get_test_data.md
+notes_jl.md
 
 scripts/.DS_Store
 scripts/01_process-bulkrna/.DS_Store
