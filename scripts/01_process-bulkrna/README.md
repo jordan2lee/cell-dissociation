@@ -4,11 +4,14 @@ This dir contains the scripts for processing raw sequence reads of bulk RNA-seq 
 
 Primary output of pipeline is in `data/01_process-bulkrna/`
 
-Run workflow `cwl-runner --outdir ../../data/01_process-bulkrna/readqc/ bulk_prepro-workflow.cwl bulk_prepro-workflow-job.yml`
+Run workflow `RUN.sh`
+```
+cwl-runner --outdir ../../data/01_process-bulkrna/data_dump bulk_prepro-workflow.cwl bulk_prepro-workflow-job.yml
+```
 
 This workflow contains the following steps:
 
-### Read Quality Control
+# Read Quality Control
 
 The CWL tool `fastqc.cwl` runs **FastQC** in a docker container for read 1 and read 2 independently. For each input file, there are two output files (`.html` `.zip`)
 
