@@ -14,13 +14,13 @@ inputs:
     inputBinding:
       position: 1
 
-  # format type
+  # format type, default passes 'fastq' to baseCommand
   type:
     type: string
     default: fastq
     inputBinding:
       position: 2
-      prefix: "-f" # flag to pass to fastqc command
+      prefix: "-f" 
 
 
 outputs:
