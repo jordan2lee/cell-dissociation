@@ -1,20 +1,8 @@
-# General
+# PREPROCESSING BULK RNA-SEQ WORKFLOW
 
 This dir contains the scripts for processing raw sequence reads of bulk RNA-seq samples through generating count matrices and inspecting count matrices for odd occurances
 
 Primary output of pipeline is in `data/01_process-bulkrna/`
-
-# Prerequisites
-
-```
-Pipeline assumes that user has properly installed python3 and Java. And additional installations as indicated in `requirements.txt`
-
-Development environment will occur in a virtual environment and finalized scripts will be deployed using Docker
-
-Reference files for alignment (fasta and GTF) need to be manually downloaded prior to running pipeline
-```
-
-# PREPROCESSING BULK RNA-SEQ WORKFLOW
 
 Run workflow `cwl-runner --outdir ../../data/01_process-bulkrna/readqc/ bulk_prepro-workflow.cwl bulk_prepro-workflow-job.yml`
 
