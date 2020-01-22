@@ -1,10 +1,10 @@
+#!/user/bin/env cwltool
+
 cwlVersion: v1.0
 class: CommandLineTool
-
 requirements:
   - class: DockerRequirement
     dockerPull: "biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1"
-
 baseCommand: [fastqc, -o, ./] # name of command to run
 
 inputs:
@@ -21,6 +21,7 @@ inputs:
     inputBinding:
       position: 2
       prefix: "-f" # flag to pass to fastqc command
+
 
 outputs:
   report:
