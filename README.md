@@ -39,19 +39,3 @@ Rather than `sudo apt install cwltool` in case you have multiple CWL implementat
 
 ### Additional Installs
 Install all other requirements in `requirements.txt`
-
-
-
-
-
-# PREPROCESSING BULK RNA-SEQ WORKFLOW
-
-Run workflow `cwl-runner --outdir ../../data/01_process-bulkrna/readqc/ bulk_prepro-workflow.cwl bulk_prepro-workflow-job.yml`
-
-This workflow contains the following steps:
-
-### Read Quality Control
-
-The CWL tool `fastqc.cwl` runs **FastQC** in a docker container for read 1 and read 2 independently. For each input file, there are two output files (`.html` `.zip`)
-
-Requires manual inspection of two output summary files to determine input parameters for read trimming.

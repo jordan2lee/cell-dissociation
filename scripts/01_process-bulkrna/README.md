@@ -14,72 +14,14 @@ Development environment will occur in a virtual environment and finalized script
 Reference files for alignment (fasta and GTF) need to be manually downloaded prior to running pipeline
 ```
 
-# Pre-processing Pipeline
+# PREPROCESSING BULK RNA-SEQ WORKFLOW
 
-`cwl_wrapper.sh`
+Run workflow `cwl-runner --outdir ../../data/01_process-bulkrna/readqc/ bulk_prepro-workflow.cwl bulk_prepro-workflow-job.yml`
 
-### Demultiplex reads & Adaptor trimming
+This workflow contains the following steps:
 
-Will create script once hear back from wetlab collaborators
+### Read Quality Control
 
-### Quality filtering and trimming
+The CWL tool `fastqc.cwl` runs **FastQC** in a docker container for read 1 and read 2 independently. For each input file, there are two output files (`.html` `.zip`)
 
-#### Raw read QC Report
-
-Generate QC summary report of reads `fastqc.cwl`
-
-Output: 2 files in `data/readqc/` for each sequence file
-
-Written for read 1 and read 2 processing
-
-#### Filter and/or trim poor reads
-
-```
-Remove bp as per above QC summary report `trimmomatic.sh`
-
-Output: `data/readtrim_and_filter/`
-```
-
-#### Filtered/trimmed read QC report
-
-```
-Run again FastQC on the filtered/trimmed read files to see the new quality of the reads
-
-Output: 2 files in `data/readtrim_and_filter/` for each sequence file
-```
-
-### Alignment
-
-```
-STAR aligner
-
-##### Building genome indexes
-
-Reference files downloaded: `Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz` and `Homo_sapiens.GRCh38.98.gtf.gz`
-
-Ensembl homo sapien reference fasta and GTF file stored in `data/align/metadata/gtf/` and `data/align/metadata/ref_fa`
-
-Reminder: Reference files need to be manually downloaded prior to running pipeline
-
-Output: `data/align/genome_indexes/`
-
-##### Read mapping
-
-Output: `data/align/mapped`
-```
-
-### QC BAM file
-
-### Approximate strandedness
-
-### Generate count matrices
-
-### Extended
-
-The analysis of this section will not be used for input of downstream cross project analysis. Instead this section allows us to examine our count matrices - and consider if hyperparameters in the above steps should be altered to improve quality of count matrices
-
-##### Normalize
-
-##### Dimensionality reduction
-
-##### QC for odd data
+Requires manual inspection of two output summary files to determine input parameters for read trimming.
