@@ -20,6 +20,9 @@ Set up workspace by running `./setup-dir.sh` which will create the following nes
 
 `notes/`
 
+
+
+
 # Getting Started
 
 ### Virtual Environment
@@ -28,29 +31,27 @@ Set up workspace by running `./setup-dir.sh` which will create the following nes
 ```
 
 ### Cwltool Install
-`pip install cwltool`
+```
+pip install cwltool
+```
+
+Rather than `sudo apt install cwltool` in case you have multiple CWL implementations
 
 ### Additional Installs
 Install all other requirements in `requirements.txt`
 
-### Get Bulk RNA-seq Example Data
-```
-curl -o data/test/HBR_UHR_ERCC_ds_5pc.tar http://genomedata.org/rnaseq-tutorial/HBR_UHR_ERCC_ds_5pc.tar
-tar -C data/test -xvf data/test/HBR_UHR_ERCC_ds_5pc.tar
-```
 
-# Preprocessing: Bulk RNA-seq
 
-`scripts/01_process-bulkrna/cwl_wrapper.sh`
 
-This analysis includes:
+
+# PREPROCESSING BULK RNA-SEQ WORKFLOW
+
+Run workflow `cwl-runner --outdir ../../data/01_process-bulkrna/readqc/ bulk_prepro-workflow.cwl bulk_prepro-workflow-job.yml`
+
+This workflow contains the following steps:
 
 ### Read Quality Control
 
-The CWL tool `scripts/01_process-bulkrna/fastqc.cwl` runs **FastQC** in a docker container for read 1 and read 2 independently.
+The CWL tool `fastqc.cwl` runs **FastQC** in a docker container for read 1 and read 2 independently. For each input file, there are two output files (`.html` `.zip`)
 
-Requires manual inspection of two output summary files (`.html` `.zip`) to determine input parameters for read trimming.
-
-### Read Quality Trimming
-
- [WIP] The CWL tool `scripts/01_process-bulkrna/trimmomatic.cwl` runs **Trimomatic** in a docker container for read 1 and read 2.
+Requires manual inspection of two output summary files to determine input parameters for read trimming.

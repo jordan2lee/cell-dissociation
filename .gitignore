@@ -5,10 +5,11 @@ requirements.txt
 .DS_Store
 
 previous_README.md
-
+get_test_data.md
 
 scripts/.DS_Store
 scripts/01_process-bulkrna/.DS_Store
+scripts/01_process-bulkrna/previous/
 
 raw-data/test-data/
 raw-data/.DS_Store

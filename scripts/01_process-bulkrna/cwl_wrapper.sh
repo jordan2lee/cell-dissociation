@@ -1,12 +1,29 @@
 #!/bin/bash
 
 ###########
-# Readqc - run fastqc, raw reads
+# Running by calling cwl tool
 ##########
 # Read 1
-cwltool --outdir ../../data/01_process-bulkrna/readqc/ fastqc.cwl fastqc-job1.yml
+cwl-runner --outdir ../../data/01_process-bulkrna/readqc/ fastqc.cwl fastqc-job1.yml
 # Read 2
-cwltool --outdir ../../data/01_process-bulkrna/readqc/ fastqc.cwl fastqc-job2.yml
+cwl-runner --outdir ../../data/01_process-bulkrna/readqc/ fastqc.cwl fastqc-job2.yml
+
+
+############
+# Running by calling cwl workflow
+############
+cwl-runner --outdir ../../data/01_process-bulkrna/readqc/ bulk_prepro-workflow.cwl bulk_prepro-workflow-job.yml
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-#!/user/bin/env cwltool
+#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: CommandLineTool
@@ -20,7 +20,7 @@ inputs:
     default: fastq
     inputBinding:
       position: 2
-      prefix: "-f" 
+      prefix: "-f"
 
 
 outputs:

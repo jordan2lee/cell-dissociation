@@ -1,3 +1,0 @@
-input_file:
-  class: File
-  path: ../../data/01_process-bulkrna/test-data/UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
