@@ -6,7 +6,7 @@ Primary output of pipeline is in `data/01_process-bulkrna/`
 
 Run workflow `RUN.sh`
 ```
-cwl-runner --outdir ../../data/01_process-bulkrna/data_dump bulk_prepro-workflow.cwl bulk_prepro-workflow-job.yml
+cwl-runner --outdir ../../data/01_process-bulkrna/data_dump workflows/bulk_prepro-workflow.cwl tools/bulk_prepro-workflow-job.yml
 ```
 
 This workflow contains the following steps:
