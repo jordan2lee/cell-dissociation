@@ -1,3 +1,6 @@
+mkdir tools
+mkdir workflows
+
 # test data
 mkdir ../../data/01_process-bulkrna/test-data
 
@@ -14,3 +17,4 @@ mkdir ../../data/01_process-bulkrna/align/metadata/gtf
 mkdir ../../data/01_process-bulkrna/align/metadata/ref_fa
 mkdir ../../data/01_process-bulkrna/align/genome_indexes
 mkdir ../../data/01_process-bulkrna/align/mapped
+
