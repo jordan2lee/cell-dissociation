@@ -36,7 +36,7 @@ outputs:
     outputBinding:
       glob: "*.zip"
     outputSource: rawreadqc_r1/summary
-    
+
   rawreadqc_r2_REPORT:
     doc: HTML file of FastQC report of raw sequencing read2
     type: File
@@ -49,7 +49,6 @@ outputs:
     outputBinding:
       glob: "*.zip"
     outputSource: rawreadqc_r2/summary
-
 
 
 
