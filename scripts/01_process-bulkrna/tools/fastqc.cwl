@@ -2,10 +2,13 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-requirements:
-  - class: DockerRequirement
-    dockerPull: "biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1"
 baseCommand: [fastqc, -o, ./] # name of command to run
+requirements:
+  InlineJavascriptRequirement: {}
+hints:
+  DockerRequirement:
+    dockerPull: biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
+
 
 inputs:
   # Read 1 file

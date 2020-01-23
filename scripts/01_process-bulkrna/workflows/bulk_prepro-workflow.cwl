@@ -36,6 +36,7 @@ outputs:
     outputBinding:
       glob: "*.zip"
     outputSource: rawreadqc_r1/summary
+    
   rawreadqc_r2_REPORT:
     doc: HTML file of FastQC report of raw sequencing read2
     type: File
@@ -60,6 +61,7 @@ steps:
     in:
       input_file: input_file_r1
     out: [report, summary]
+
   rawreadqc_r2:
     run: ../tools/fastqc.cwl
     in:
