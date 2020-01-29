@@ -7,6 +7,7 @@ This dir contains the scripts for processing raw sequence reads of bulk RNA-seq 
 1. Demultiplex reads
 2. Read quality control
 3. Adapter and poor quality read trimming
+4. Check read quality
 5. Genome indexing (create alignment indices)
 6. Alignment
 7. Generate count matrices - from aligned reads (samtools + HTSeqcount)
@@ -32,3 +33,9 @@ Requires manual inspection of two output summary files to determine input parame
 **Adapter sequence trimming will be added in future iterations**
 
 Trimmomatic 0.39. Paired trimming. Although virtually all adapter sequences should already have been trimmed, we will conduct a secondary pass to remove any remaining adapter sequences. Then low quality reads will be trimmed.
+
+# Check Read Quality after trimming
+
+**Rewrite to automate yaml input file**
+
+Run same CWL tool on output file from previous section. Currently input file names are hardcoded.

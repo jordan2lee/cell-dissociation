@@ -16,11 +16,17 @@ docker run --rm -v /home/ubuntu/cell-dissociation:/tmp \
     quay.io/biocontainers/trimmomatic:0.39--1 \
     trimmomatic PE \
     -threads 11 -phred33 \
-    -trimlog /tmp/data/01_process-bulkrna/data_dump/02b_trimmomatic/trimlog_${trimlog}.txt\
+    -trimlog /tmp/data/01_process-bulkrna/data_dump/03_trimmomatic/trimlog_${trimlog}.txt\
     /tmp/data/01_process-bulkrna/test-data/${read1} \
     /tmp/data/01_process-bulkrna/test-data/${read2} \
-    /tmp/data/01_process-bulkrna/data_dump/02b_trimmomatic/${read1}_trimmed.fastq.gz \
-    /tmp/data/01_process-bulkrna/data_dump/02b_trimmomatic/${read2}_trimmed.fastq.gz \
-    LEADING:28 TRAILING:28\
-    SLIDINGWINDOW:4:28 \
+    /tmp/data/01_process-bulkrna/data_dump/03_trimmomatic/${read1}_trimmed.fastq.gz \
+    /tmp/data/01_process-bulkrna/data_dump/03_trimmomatic/${read2}_trimmed.fastq.gz \
+    LEADING:30 TRAILING:30\
+    SLIDINGWINDOW:4:30 \
     MINLEN:90
+
+# want to automate this step
+# QC raw reads - fastqc
+cwl-runner --outdir ../../data/01_process-bulkrna/data_dump/04_fastqc-trimmed \
+    workflows/fastqc_raw-workflow.cwl \
+    tools/fastqc_trimmedinputs.yml
