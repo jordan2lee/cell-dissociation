@@ -16,7 +16,3 @@ This workflow contains the following steps:
 The CWL tool `fastqc.cwl` runs **FastQC** in a docker container for read 1 and read 2 independently. For each input file, there are two output files (`.html` `.zip`)
 
 Requires manual inspection of two output summary files to determine input parameters for read trimming.
-
-# Trim Reads
-
-`trimmomatic.cwl` pulled from https://github.com/Duke-GCB/GGR-cwl/tree/master/v1.0/trimmomatic
