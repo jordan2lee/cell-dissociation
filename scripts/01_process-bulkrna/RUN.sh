@@ -30,3 +30,18 @@ docker run --rm -v /home/ubuntu/cell-dissociation:/tmp \
 cwl-runner --outdir ../../data/01_process-bulkrna/data_dump/04_fastqc-trimmed \
     workflows/fastqc_raw-workflow.cwl \
     tools/fastqc_trimmedinputs.yml
+
+
+# Build genome indexes for alignment
+# docker pull alexdobin/star:2.6.1d
+# zcat /home/ubuntu/cell-dissociation/data/01_process-bulkrna/data_dump/06_star/metadata/ref_fa/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz > /home/ubuntu/cell-dissociation/data/01_process-bulkrna/data_dump/06_star/metadata/ref_fa/TEMP-ref.fa
+# docker run --rm -v /home/ubuntu/cell-dissociation:/tmp \
+#     alexdobin/star:2.6.1d \
+#     STAR \
+#     --runThreadN 11 \
+#     --runMode genomeGenerate \
+#     --genomeDir /tmp/data/01_process-bulkrna/data_dump/06_star/genome_indexes \
+#     --genomeFastaFiles /tmp/data/01_process-bulkrna/data_dump/06_star/metadata/ref_fa/TEMP-ref.fa \
+#     --sjdbGTFfile /tmp/data/01_process-bulkrna/data_dump/06_star/metadata/gtf/Homo_sapiens.GRCh38.98.gtf.gz \
+#     --sjdbOverhang 100
+# rm /tmp/data/01_process-bulkrna/data_dump/06_star/metadata/ref_fa/TEMP-ref.fa
