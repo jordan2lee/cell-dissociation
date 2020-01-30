@@ -46,12 +46,12 @@ Run same CWL tool on output file from previous section. Currently input file nam
 
 STAR aligner
 
-# Align
+# Align (Docker)
 
 **WIP, currently testing deployment** `TEMP-RUN.sh`
 
 STAR aligner
 
-# Generate Count Matrices
+# Generate Count Matrices (TBD)
 
 Samtools and HTSeqcount
