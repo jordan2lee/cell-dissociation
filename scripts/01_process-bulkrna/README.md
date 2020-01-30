@@ -39,3 +39,7 @@ Trimmomatic 0.39. Paired trimming. Although virtually all adapter sequences shou
 **Rewrite to automate yaml input file**
 
 Run same CWL tool on output file from previous section. Currently input file names are hardcoded.
+
+# Build Genome Indexes
+
+STAR
