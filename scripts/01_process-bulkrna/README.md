@@ -42,4 +42,16 @@ Run same CWL tool on output file from previous section. Currently input file nam
 
 # Build Genome Indexes (Docker)
 
-STAR
+**WIP, currently testing deployment** `TEMP-RUN.sh`
+
+STAR aligner
+
+# Align
+
+**WIP, currently testing deployment** `TEMP-RUN.sh`
+
+STAR aligner
+
+# Generate Count Matrices
+
+Samtools and HTSeqcount
