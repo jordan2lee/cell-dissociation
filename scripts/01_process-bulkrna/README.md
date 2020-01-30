@@ -34,12 +34,12 @@ Requires manual inspection of two output summary files to determine input parame
 
 Trimmomatic 0.39. Paired trimming. Although virtually all adapter sequences should already have been trimmed, we will conduct a secondary pass to remove any remaining adapter sequences. Then low quality reads will be trimmed.
 
-# Check Read Quality after trimming
+# Check Read Quality after trimming (CWL, Docker)
 
 **Rewrite to automate yaml input file**
 
 Run same CWL tool on output file from previous section. Currently input file names are hardcoded.
 
-# Build Genome Indexes
+# Build Genome Indexes (Docker)
 
 STAR
