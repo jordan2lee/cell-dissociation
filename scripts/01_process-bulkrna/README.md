@@ -42,13 +42,11 @@ Run same CWL tool on output file from previous section. Currently input file nam
 
 # Build Genome Indexes (Docker)
 
-**WIP, currently testing deployment** `TEMP-RUN.sh`
-
 STAR aligner
 
 # Align (Docker)
 
-**WIP, currently testing deployment** `TEMP-RUN.sh`
+**WIP, currently testing deployment** `RUN.sh`
 
 STAR aligner
 
