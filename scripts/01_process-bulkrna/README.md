@@ -42,14 +42,26 @@ Run same CWL tool on output file from previous section. Currently input file nam
 
 # Build Genome Indexes (Docker)
 
+**Currently hardcoded for limited disk space**
+
 STAR aligner
 
 # Align (Docker)
 
 STAR aligner
 
-Each FASTQ file has 5 output files
+Each FASTQ file has 5 output files, including unsorted by name BAM file
 
-# Generate Count Matrices (TBD)
+# Alignment File QC
 
-Samtools and HTSeqcount
+**Skipped for now, will loop around and finish this**
+
+Samtools
+
+# Generate Count Matrices (Docker)
+
+HTSeq-count (gene-level counting)
+
++ Parameters set for stranded, ignore multimapped reads, not current for paired end data
+
+*Note* Transcript-level quantification is less accurate than gene-level quantification (e.g. salmon, RSEM, kallisto). Also transcript-level quantification has less clear biological interpretability. Less statistical power if split counts between isoforms.

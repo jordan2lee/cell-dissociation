@@ -1,6 +1,6 @@
-# Purpose 
+# Purpose
 Investigate artifacts produced by cell dissociation methods that confound scRNA-seq analysis
- 
+
 # Repository Structure
 Set up workspace by running `./setup-dir.sh` which will create the following nested structure:
 
@@ -37,5 +37,4 @@ pip install cwltool
 
 Rather than `sudo apt install cwltool` in case you have multiple CWL implementations
 
-### Additional Installs
-Install all other requirements in `requirements.txt`
+### Meta data
