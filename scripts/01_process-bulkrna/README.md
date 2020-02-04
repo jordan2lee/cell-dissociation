@@ -46,8 +46,6 @@ STAR aligner
 
 # Align (Docker)
 
-**WIP, currently testing deployment** `RUN.sh`
-
 STAR aligner
 
 Each FASTQ file has 5 output files
