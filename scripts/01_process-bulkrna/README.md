@@ -52,6 +52,8 @@ STAR aligner
 
 STAR aligner
 
+Each FASTQ file has 5 output files
+
 # Generate Count Matrices (TBD)
 
 Samtools and HTSeqcount
