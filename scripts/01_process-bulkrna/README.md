@@ -10,7 +10,8 @@ This dir contains the scripts for processing raw sequence reads of bulk RNA-seq 
 4. Check read quality
 5. Genome indexing (create alignment indices)
 6. Alignment
-7. Generate count matrices - from aligned reads (samtools + HTSeqcount)
+7. Alignment File QC
+8. Generate count matrices - from aligned reads (samtools + HTSeqcount)
 
 
 Primary output of pipeline is in `data/01_process-bulkrna/`
@@ -21,6 +22,10 @@ cwl-runner --outdir ../../data/01_process-bulkrna/data_dump workflows/bulk_prepr
 ```
 
 This workflow contains the following steps:
+
+# Demultiplex Reads
+
+*Will be added once have seq results from the Core*
 
 # Read Quality Control (CWL, Docker)
 

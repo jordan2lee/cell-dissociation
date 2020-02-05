@@ -38,3 +38,13 @@ pip install cwltool
 Rather than `sudo apt install cwltool` in case you have multiple CWL implementations
 
 ### Meta data
+
+Metadata for STAR
+```
+Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+```
+
+Metadata for STAR and featureCounts
+```
+wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.98.gtf.gz
+```
