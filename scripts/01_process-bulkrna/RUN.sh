@@ -16,34 +16,50 @@ mkdir /mnt/scratch/5420/${ses}
 cp -r raw-data /mnt/scratch/5420/${ses} #move raw seq reads dir
 # make output structure
 mkdir /mnt/scratch/5420/${ses}/output
+mkdir /mnt/scratch/5420/${ses}/output/02a_fastqc
 mkdir /mnt/scratch/5420/${ses}/output/03_trimmomatic
 
 #########################
 # QC raw reads - fastqc
 #########################
-# cwl-runner --outdir ../../data/01_process-bulkrna/data_dump/02a_fastqc \
-#     workflows/fastqc_raw-workflow.cwl \
-#     tools/fastqc_raw-inputs.yml
-
-####################################
-# Trim low qual reads - trimmomatic
-####################################
-sudo /opt/acc/sbin/exadocker pull quay.io/biocontainers/trimmomatic:0.39--1
+# Read 1
+sudo /opt/acc/sbin/exadocker pull biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
 sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
-    quay.io/biocontainers/trimmomatic:0.39--1 \
-    trimmomatic PE \
-    -threads 11 -phred33 \
-    -trimlog /tmp/output/LOG_${basename}.txt\
+    biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1 \
+    fastqc \
     /tmp/raw-data/${read1} \
-    /tmp/raw-data/${read2} \
-    /tmp/output/03_trimmomatic/${read1}_trimmed.fastq.gz \
-    /tmp/output/03_trimmomatic/${read1}_trimmedUNPAIRED.fastq.gz \
-    /tmp/output/03_trimmomatic/${read2}_trimmed.fastq.gz \
-    /tmp/output/03_trimmomatic/${read2}_trimmedUNPAIRED.fastq.gz \
-    LEADING:30 TRAILING:30\
-    SLIDINGWINDOW:4:30 \
-    MINLEN:90
+    -f fastq \
+    -o /tmp/output/02a_fastqc
 
+# Read 2
+sudo /opt/acc/sbin/exadocker pull biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
+sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
+    biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1 \
+    fastqc \
+    /tmp/raw-data/${read2} \
+    -f fastq \
+    -o /tmp/output/02a_fastqc
+
+
+# # ####################################
+# # # Trim low qual reads - trimmomatic
+# # ####################################
+# sudo /opt/acc/sbin/exadocker pull quay.io/biocontainers/trimmomatic:0.39--1
+# sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
+#     quay.io/biocontainers/trimmomatic:0.39--1 \
+#     trimmomatic PE \
+#     -threads 11 -phred33 \
+#     -trimlog /tmp/output/LOG_${basename}.txt\
+#     /tmp/raw-data/${read1} \
+#     /tmp/raw-data/${read2} \
+#     /tmp/output/03_trimmomatic/${read1}_trimmed.fastq.gz \
+#     /tmp/output/03_trimmomatic/${read1}_trimmedUNPAIRED.fastq.gz \
+#     /tmp/output/03_trimmomatic/${read2}_trimmed.fastq.gz \
+#     /tmp/output/03_trimmomatic/${read2}_trimmedUNPAIRED.fastq.gz \
+#     LEADING:30 TRAILING:30\
+#     SLIDINGWINDOW:4:30 \
+#     MINLEN:90
+#
 # # want to automate this step
 # # QC raw reads - fastqc
 # cwl-runner --outdir ../../data/01_process-bulkrna/data_dump/04_fastqc-trimmed \
