@@ -11,8 +11,8 @@ scripts/.DS_Store
 scripts/01_process-bulkrna/.DS_Store
 scripts/01_process-bulkrna/previous/
 
-raw-data/test-data/
-raw-data/.DS_Store
+raw-data/*
+!raw-data/README.md
 
 data/.DS_Store
 data/01_process-bulkrna/*
