@@ -11,15 +11,8 @@ This dir contains the scripts for processing raw sequence reads of bulk RNA-seq 
 5. Genome indexing (create alignment indices)
 6. Alignment
 7. Alignment File QC
-8. Generate count matrices - from aligned reads (samtools + HTSeqcount)
+8. Generate count matrices - from aligned reads (featureCounts) -> called `${basename}_COUNTmatrix.txt`
 
-
-Primary output of pipeline is in `data/01_process-bulkrna/`
-
-Run workflow `RUN.sh`
-```
-cwl-runner --outdir ../../data/01_process-bulkrna/data_dump workflows/bulk_prepro-workflow.cwl tools/bulk_prepro-workflow-job.yml
-```
 
 This workflow contains the following steps:
 
@@ -27,7 +20,7 @@ This workflow contains the following steps:
 
 *Will be added once have seq results from the Core*
 
-# Read Quality Control (CWL, Docker)
+# Read Quality Control (Docker)
 
 The CWL tool `fastqc.cwl` runs **FastQC** in a docker container for read 1 and read 2 independently. For each input file, there are two output files (`.html` `.zip`)
 
@@ -39,15 +32,11 @@ Requires manual inspection of two output summary files to determine input parame
 
 Trimmomatic 0.39. Paired trimming. Although virtually all adapter sequences should already have been trimmed, we will conduct a secondary pass to remove any remaining adapter sequences. Then low quality reads will be trimmed.
 
-# Check Read Quality after trimming (CWL, Docker)
-
-**Rewrite to automate yaml input file**
+# Check Read Quality after trimming (Docker)
 
 Run same CWL tool on output file from previous section. Currently input file names are hardcoded.
 
 # Build Genome Indexes (Docker)
-
-**Currently hardcoded for limited disk space**
 
 STAR aligner
 
@@ -59,14 +48,18 @@ Each FASTQ file has 5 output files, including unsorted by name BAM file
 
 # Alignment File QC
 
-**Skipped for now, will loop around and finish this**
+**TBA**
 
 Samtools
 
 # Generate Count Matrices (Docker)
 
-HTSeq-count (gene-level counting)
+featureCounts (gene-level counting) and produces final count matrix `${basename}_COUNTmatrix.txt`
 
-+ Parameters set for stranded, ignore multimapped reads, not current for paired end data
++ Parameters set for stranded, ignore multi-mapping reads, not current for paired end data
 
 *Note* Transcript-level quantification is less accurate than gene-level quantification (e.g. salmon, RSEM, kallisto). Also transcript-level quantification has less clear biological interpretability. Less statistical power if split counts between isoforms.
+
+# Additional Notes
+
+Example CWL included in this scripts dir and will be implemented for publication. For now it is simply placed there as an example.

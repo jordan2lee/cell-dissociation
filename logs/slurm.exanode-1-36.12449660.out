@@ -1,0 +1,168 @@
+##### QC raw reads #####
+starting read 1
+Trying to pull repository docker.io/biocontainers/fastqc ... 
+v0.11.8dfsg-2-deb_cv1: Pulling from docker.io/biocontainers/fastqc
+478cd0aa93c0: Pulling fs layer
+94d6a239eb0e: Pulling fs layer
+e8e87313e9cb: Pulling fs layer
+1badce2e48be: Pulling fs layer
+732b6ad56c57: Pulling fs layer
+f464fdba1cc8: Pulling fs layer
+704733959036: Pulling fs layer
+704733959036: Waiting
+f464fdba1cc8: Waiting
+732b6ad56c57: Waiting
+1badce2e48be: Waiting
+e8e87313e9cb: Verifying Checksum
+e8e87313e9cb: Download complete
+94d6a239eb0e: Download complete
+732b6ad56c57: Download complete
+1badce2e48be: Verifying Checksum
+1badce2e48be: Download complete
+478cd0aa93c0: Verifying Checksum
+478cd0aa93c0: Download complete
+f464fdba1cc8: Verifying Checksum
+f464fdba1cc8: Download complete
+704733959036: Verifying Checksum
+704733959036: Download complete
+478cd0aa93c0: Pull complete
+94d6a239eb0e: Pull complete
+e8e87313e9cb: Pull complete
+1badce2e48be: Pull complete
+732b6ad56c57: Pull complete
+f464fdba1cc8: Pull complete
+704733959036: Pull complete
+Digest: sha256:9d41ec0bc4f413abe9e5290c91e3edfaa215fc47e8e11df18691cfa870df6d91
+Status: Downloaded newer image for docker.io/biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
+Analysis complete for TESTDATA--UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz
+starting read 2
+Analysis complete for TESTDATA--UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
+##### Trim low qual raw reads #####
+Trying to pull repository quay.io/biocontainers/trimmomatic ... 
+0.39--1: Pulling from quay.io/biocontainers/trimmomatic
+a3ed95caeb02: Pulling fs layer
+77c6c00e8b61: Pulling fs layer
+3aaade50789a: Pulling fs layer
+00cf8b9f3d2a: Pulling fs layer
+7ff999a2256f: Pulling fs layer
+d2ba336f2e44: Pulling fs layer
+dfda3e01f2b6: Pulling fs layer
+10c3bb32200b: Pulling fs layer
+8c98ebc11095: Pulling fs layer
+dfda3e01f2b6: Waiting
+00cf8b9f3d2a: Waiting
+8c98ebc11095: Waiting
+7ff999a2256f: Waiting
+10c3bb32200b: Waiting
+d2ba336f2e44: Waiting
+a3ed95caeb02: Download complete
+3aaade50789a: Download complete
+a3ed95caeb02: Pull complete
+77c6c00e8b61: Verifying Checksum
+77c6c00e8b61: Download complete
+77c6c00e8b61: Pull complete
+7ff999a2256f: Download complete
+3aaade50789a: Pull complete
+00cf8b9f3d2a: Verifying Checksum
+00cf8b9f3d2a: Download complete
+00cf8b9f3d2a: Pull complete
+d2ba336f2e44: Verifying Checksum
+d2ba336f2e44: Download complete
+7ff999a2256f: Pull complete
+d2ba336f2e44: Pull complete
+dfda3e01f2b6: Download complete
+10c3bb32200b: Verifying Checksum
+10c3bb32200b: Download complete
+dfda3e01f2b6: Pull complete
+10c3bb32200b: Pull complete
+8c98ebc11095: Verifying Checksum
+8c98ebc11095: Download complete
+8c98ebc11095: Pull complete
+Digest: sha256:e1963a7190c3fa5ede49eea5e56f1bdb3e9773358d8a778ce1b47648aba39154
+Status: Downloaded newer image for quay.io/biocontainers/trimmomatic:0.39--1
+##### QC trimmed reads #####
+starting read 1
+Trying to pull repository docker.io/biocontainers/fastqc ... 
+v0.11.8dfsg-2-deb_cv1: Pulling from docker.io/biocontainers/fastqc
+Digest: sha256:9d41ec0bc4f413abe9e5290c91e3edfaa215fc47e8e11df18691cfa870df6d91
+Status: Image is up to date for docker.io/biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
+Analysis complete for TESTDATA--UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz_trimmed.fastq.gz
+starting read 2
+Analysis complete for TESTDATA--UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz_trimmed.fastq.gz
+##### Mapping reads #####
+Trying to pull repository docker.io/alexdobin/star ... 
+2.6.1d: Pulling from docker.io/alexdobin/star
+a5a6f2f73cd8: Pulling fs layer
+36fb0cb6bf70: Pulling fs layer
+36fb0cb6bf70: Verifying Checksum
+36fb0cb6bf70: Download complete
+a5a6f2f73cd8: Verifying Checksum
+a5a6f2f73cd8: Download complete
+a5a6f2f73cd8: Pull complete
+36fb0cb6bf70: Pull complete
+Digest: sha256:085e46e580a8216921c1dfbb188e3dbc23fe29cf0be75b62dce0a4391bba133e
+Status: Downloaded newer image for docker.io/alexdobin/star:2.6.1d
+Feb 20 22:18:56 ..... started STAR run
+Feb 20 22:18:56 ..... loading genome
+##### QC BAM file #####
+tba
+##### Create count matrix #####
+Trying to pull repository docker.io/alexgilgal/featurecount ... 
+latest: Pulling from docker.io/alexgilgal/featurecount
+89e43290682b: Pulling fs layer
+448f13e41980: Pulling fs layer
+23b2d56b2653: Pulling fs layer
+bb0a555c31a0: Pulling fs layer
+c7157248b9db: Pulling fs layer
+503486b6996d: Pulling fs layer
+402b3d3c1fb9: Pulling fs layer
+f337ea0654e7: Pulling fs layer
+bbb00d3fc01b: Pulling fs layer
+bb0a555c31a0: Waiting
+2c7075ed89ec: Pulling fs layer
+f19d7d7ca0ca: Pulling fs layer
+f337ea0654e7: Waiting
+2af2d5198621: Pulling fs layer
+c7157248b9db: Waiting
+f19d7d7ca0ca: Waiting
+bbb00d3fc01b: Waiting
+2af2d5198621: Waiting
+2c7075ed89ec: Waiting
+402b3d3c1fb9: Waiting
+503486b6996d: Waiting
+448f13e41980: Download complete
+23b2d56b2653: Verifying Checksum
+23b2d56b2653: Download complete
+bb0a555c31a0: Verifying Checksum
+bb0a555c31a0: Download complete
+89e43290682b: Verifying Checksum
+89e43290682b: Download complete
+c7157248b9db: Verifying Checksum
+c7157248b9db: Download complete
+f337ea0654e7: Verifying Checksum
+f337ea0654e7: Download complete
+402b3d3c1fb9: Verifying Checksum
+402b3d3c1fb9: Download complete
+503486b6996d: Verifying Checksum
+503486b6996d: Download complete
+2c7075ed89ec: Verifying Checksum
+2c7075ed89ec: Download complete
+bbb00d3fc01b: Verifying Checksum
+bbb00d3fc01b: Download complete
+f19d7d7ca0ca: Download complete
+2af2d5198621: Download complete
+89e43290682b: Pull complete
+448f13e41980: Pull complete
+23b2d56b2653: Pull complete
+bb0a555c31a0: Pull complete
+c7157248b9db: Pull complete
+503486b6996d: Pull complete
+402b3d3c1fb9: Pull complete
+f337ea0654e7: Pull complete
+bbb00d3fc01b: Pull complete
+2c7075ed89ec: Pull complete
+f19d7d7ca0ca: Pull complete
+2af2d5198621: Pull complete
+Digest: sha256:87cecbd20396682c53d46408aacb1cab6fc522a0060ff5268c2c0e58601f4aee
+Status: Downloaded newer image for docker.io/alexgilgal/featurecount:latest
+##### Cleaning up workspace #####

@@ -1,0 +1,17 @@
+##### Building genome indexes #####
+Trying to pull repository docker.io/alexdobin/star ... 
+2.6.1d: Pulling from docker.io/alexdobin/star
+a5a6f2f73cd8: Pulling fs layer
+36fb0cb6bf70: Pulling fs layer
+a5a6f2f73cd8: Verifying Checksum
+a5a6f2f73cd8: Download complete
+36fb0cb6bf70: Verifying Checksum
+36fb0cb6bf70: Download complete
+a5a6f2f73cd8: Pull complete
+36fb0cb6bf70: Pull complete
+Digest: sha256:085e46e580a8216921c1dfbb188e3dbc23fe29cf0be75b62dce0a4391bba133e
+Status: Downloaded newer image for docker.io/alexdobin/star:2.6.1d
+Feb 22 01:08:53 ..... started STAR run
+Feb 22 01:08:53 ... starting to generate Genome files
+Feb 22 01:09:26 ... starting to sort Suffix Array. This may take a long time...
+Feb 22 01:09:44 ... sorting Suffix Array chunks and saving them to disk...
