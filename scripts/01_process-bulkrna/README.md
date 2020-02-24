@@ -2,57 +2,71 @@
 
 This dir contains the scripts for processing raw sequence reads of bulk RNA-seq samples through generating count matrices and inspecting count matrices for odd occurances
 
-### Overview
+## Analysis Overview
+
+*Step 1:*
+
+1. Genome indexing (create alignment indices)
+
+*Step 2:*
 
 1. Demultiplex reads
 2. Read quality control
 3. Adapter and poor quality read trimming
 4. Check read quality
-5. Genome indexing (create alignment indices)
-6. Alignment
-7. Alignment File QC
-8. Generate count matrices - from aligned reads (featureCounts) -> called `${basename}_COUNTmatrix.txt`
+5. Alignment
+6. Alignment File QC
+7. Generate count matrices - from aligned reads (featureCounts) -> called `${basename}_COUNTmatrix.txt`
 
 
-This workflow contains the following steps:
 
-# Demultiplex Reads
 
-*Will be added once have seq results from the Core*
+# Step 1: `RUN_build-genom.sh`
 
-# Read Quality Control (Docker)
+## Build Genome Indexes (Docker)
 
-The CWL tool `fastqc.cwl` runs **FastQC** in a docker container for read 1 and read 2 independently. For each input file, there are two output files (`.html` `.zip`)
+STAR aligner. Job ID 12460222
+
+
+
+
+# Step 2: `RUN.sh`
+
+Job ID 12467117
+
+## Demultiplex Reads
+
+**[TODO] Will be added once have seq results from the Core**
+
+## Read Quality Control (Docker)
+
+Produce read quality reports of raw seq files (that have been demultiplexed).
 
 Requires manual inspection of two output summary files to determine input parameters for read trimming.
 
-# Adapter and Poor Quality Read Trimming (Docker)
+## Adapter and Poor Quality Read Trimming (Docker)
 
-**Adapter sequence trimming will be added in future iterations**
+**[TODO] Adapter sequence trimming will be added once have seq results from the Core**
 
 Trimmomatic 0.39. Paired trimming. Although virtually all adapter sequences should already have been trimmed, we will conduct a secondary pass to remove any remaining adapter sequences. Then low quality reads will be trimmed.
 
-# Check Read Quality after trimming (Docker)
+## Check Read Quality after trimming (Docker)
 
-Run same CWL tool on output file from previous section. Currently input file names are hardcoded.
+Produce read quality reports of trimmed seq files.
 
-# Build Genome Indexes (Docker)
-
-STAR aligner
-
-# Align (Docker)
+## Align (Docker)
 
 STAR aligner
 
 Each FASTQ file has 5 output files, including unsorted by name BAM file
 
-# Alignment File QC
+## Alignment File QC
 
-**TBA**
+**[TODO] Adapter sequence trimming will be added once have seq results from the Core**
 
 Samtools
 
-# Generate Count Matrices (Docker)
+## Generate Count Matrices (Docker)
 
 featureCounts (gene-level counting) and produces final count matrix `${basename}_COUNTmatrix.txt`
 
@@ -60,6 +74,6 @@ featureCounts (gene-level counting) and produces final count matrix `${basename}
 
 *Note* Transcript-level quantification is less accurate than gene-level quantification (e.g. salmon, RSEM, kallisto). Also transcript-level quantification has less clear biological interpretability. Less statistical power if split counts between isoforms.
 
-# Additional Notes
+## Additional Notes
 
 Example CWL included in this scripts dir and will be implemented for publication. For now it is simply placed there as an example.
