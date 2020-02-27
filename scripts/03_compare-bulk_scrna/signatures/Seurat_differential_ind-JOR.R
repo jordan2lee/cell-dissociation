@@ -10,16 +10,26 @@ library(openxlsx)
 library(reticulate)
 library(cowplot)
 library(RColorBrewer)
-use_python("/share/software/user/open/python/3.6.1/bin/python3")
-source("/oak/stanford/groups/andrewg/users/aespin/Project1/Scripts/Run_CIBERSORT_dir.R")
-source("/oak/stanford/groups/andrewg/users/aespin/Project1/Scripts/Run_CIBERSORT_signature2_dir.R")
-source("/oak/stanford/groups/andrewg/users/aespin/Scripts/CSx/CIBERSORTxFractions.R")
+#use_python("/share/software/user/open/python/3.6.1/bin/python3")
+#source("/oak/stanford/groups/andrewg/users/aespin/Project1/Scripts/Run_CIBERSORT_dir.R")
+#source("/oak/stanford/groups/andrewg/users/aespin/Project1/Scripts/Run_CIBERSORT_signature2_dir.R")
+#source("/oak/stanford/groups/andrewg/users/aespin/Scripts/CSx/CIBERSORTxFractions.R")
+
+################ Manual
+#indir ="/oak/stanford/groups/andrewg/users/zinaida/u54_data/cellranger_aligned"
+#outdir='/oak/stanford/groups/andrewg/users/aespin'
+
+indir ="../../raw-data/TESTDATA--filtered_gene_bc_matrices/hg19"
+outdir='../../data/02_process-scrna'
+#########################
 
 # Declaring path where raw data is and creating new directory as output
-dir_input_sc <- "/oak/stanford/groups/andrewg/users/zinaida/u54_data/cellranger_aligned"
-dir.create(file.path("/oak/stanford/groups/andrewg/users/aespin/MechEnz/scRNAseq",subject_id))
+dir_input_sc <- indir
+dir.create(file.path(paste(outdir,"MechEnz/scRNAseq", sep='/'),subject_id))
 dir_output <- file.path("/oak/stanford/groups/andrewg/users/aespin/MechEnz/scRNAseq",subject_id)
 setwd(dir_output)
+dir_input_sc <- "../../raw-data/TESTDATA--filtered_gene_bc_matrices/hg19"
+
 
 #info <- read.xlsx(file.path(dir_input,"Data.xlsx"), sheet = 1)
 sample_dirs <- list.files(dir_input_sc,pattern = paste("cellranger_"))
