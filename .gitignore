@@ -4,6 +4,8 @@ venv3
 requirements.txt
 .DS_Store
 
+scripts/03_compare-bulk_scrna/signatures/venv
+
 previous_README.md
 notes_jl.md
 
@@ -16,3 +18,4 @@ raw-data/*
 
 data/.DS_Store
 data/01_process-bulkrna/*
+data/03_compare-bulk_scrna/signatures/MechEnz/scRNAseq/TEST
