@@ -120,33 +120,52 @@ echo '##### QC BAM file #####'
 # TBA
 echo 'tba'
 
-##############################
-# Quantify reads: featureCounts
-##############################
-# featureCounts requires decompressed input files
-zcat /mnt/scratch/5420/${ses}/raw-data/reference_files/Homo_sapiens.GRCh38.98.gtf.gz > /mnt/scratch/5420/${ses}/raw-data/reference_files/TEMP-ref.gtf
-echo '##### Create count matrix #####'
-sudo /opt/acc/sbin/exadocker pull alexgilgal/featurecount:latest
-sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
-    alexgilgal/featurecount:latest \
-    featureCounts \
-    -T ${threads} -F GTF \
-    -g gene_id -t exon \
-    -R \
-    -s 1 \
-    -a /tmp/raw-data/reference_files/TEMP-ref.gtf \
-    -o /tmp/output/07_ct_matrices/${basename}_prelim_COUNTmatrix.txt /tmp/output/06_star/${basename}_mapped-unsortedAligned.out.bam
-
-##############################
-# Extract gene counts from count matrix
-###############################
-cut -f 1,7,8,9,10,11,12 /mnt/scratch/5420/${ses}/output/07_ct_matrices/${basename}_prelim_COUNTmatrix.txt > /mnt/scratch/5420/${ses}/output/07_ct_matrices/${basename}_COUNTmatrix.txt
-
-###############
-# Clean up workspace
-###############
-# copy files from scratch and clean up scratch
-echo '##### Cleaning up workspace #####'
-cp -r /mnt/scratch/5420/${ses}/output/* /home/groups/EllrottLab/cell-dissociation/data/01_process-bulkrna/
-rm -rf /mnt/scratch/5420/${ses}
-rm -rf /mnt/scratch/5420 #run only if not currently running other jobs
+# ##############################
+# # Quantify reads: featureCounts
+# ##############################
+# # featureCounts requires decompressed input files
+# zcat /mnt/scratch/5420/${ses}/raw-data/reference_files/Homo_sapiens.GRCh38.98.gtf.gz > /mnt/scratch/5420/${ses}/raw-data/reference_files/TEMP-ref.gtf
+# echo '##### Create count matrix #####'
+# sudo /opt/acc/sbin/exadocker pull alexgilgal/featurecount:latest
+# sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
+#     alexgilgal/featurecount:latest \
+#     featureCounts \
+#     -T ${threads} -F GTF \
+#     -g gene_id -t exon \
+#     -R \
+#     -s 1 \
+#     -a /tmp/raw-data/reference_files/TEMP-ref.gtf \
+#     -o /tmp/output/07_ct_matrices/${basename}_prelim_COUNTmatrix.txt /tmp/output/06_star/${basename}_mapped-unsortedAligned.out.bam
+#
+# ##############################
+# # Quantify reads: htseq-count
+# ##############################
+# # htseq-count requires decompressed input files
+# zcat /mnt/scratch/5420/${ses}/raw-data/reference_files/Homo_sapiens.GRCh38.98.gtf.gz > /mnt/scratch/5420/${ses}/raw-data/reference_files/TEMP-ref.gtf
+# echo '##### Create count matrix #####'
+# sudo /opt/acc/sbin/exadocker pull jhart99/htseq:latest
+# sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
+#     alexgilgal/featurecount:latest \
+#     featureCounts \
+#     -T ${threads} -F GTF \
+#     -g gene_id -t exon \
+#     -R \
+#     -s 1 \
+#     -a /tmp/raw-data/reference_files/TEMP-ref.gtf \
+#     -o /tmp/output/07_ct_matrices/${basename}_prelim_COUNTmatrix.txt /tmp/output/06_star/${basename}_mapped-unsortedAligned.out.bam
+#
+#
+#
+# ##############################
+# # Extract gene counts from count matrix
+# ###############################
+# cut -f 1,7,8,9,10,11,12 /mnt/scratch/5420/${ses}/output/07_ct_matrices/${basename}_prelim_COUNTmatrix.txt > /mnt/scratch/5420/${ses}/output/07_ct_matrices/${basename}_COUNTmatrix.txt
+#
+# ###############
+# # Clean up workspace
+# ###############
+# # copy files from scratch and clean up scratch
+# echo '##### Cleaning up workspace #####'
+# cp -r /mnt/scratch/5420/${ses}/output/* /home/groups/EllrottLab/cell-dissociation/data/01_process-bulkrna/
+# rm -rf /mnt/scratch/5420/${ses}
+# rm -rf /mnt/scratch/5420 #run only if not currently running other jobs
