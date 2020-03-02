@@ -7,15 +7,15 @@ output: html_document
 
 This is a html version of dge.R as of end of day 2/28/20
 
-```{r}
+```{r, cache=TRUE}
 # Disclaimer: hardcoded names of patients in flat_matrix
 # hard coded condition vector
 ####################
 file_bulk <-'/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/01_process-bulkrna/07_ct_matrices/TESTDATA--UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22_COUNTmatrix.txt'
 countsMECH_1_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Mech/'
 countsENZ_1_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Enz/'
-countsMECH_2_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Mech/'
-countsENZ_2_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Enz/'
+countsMECH_2_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7320_Mech/'
+countsENZ_2_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7320_Enz/'
 THRES = 0.1
 output_sortedGenes = '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/03_compare-bulk_scrna/scrna2bulk/geneOrdered_results.csv'
 ####################
@@ -33,7 +33,11 @@ library(vsn)
 library(RColorBrewer)
 ```
 
-```{r}
+# Create combined matrices of mech and enz 
+
+Read in files and create pseudo-bulk (take the sum of raw gene counts across all cell barcodes and report that as the pseudo-bulk gene count)
+
+```{r, cache=TRUE, echo=FALSE}
 ###############################
 # Create combined count matrices
 ###############################
@@ -69,10 +73,10 @@ mech2 <- c(rowSums(counts_mech2))
 enz2 <- c(rowSums(counts_enz2)) 
 
 ############# need replicates so randomize, but in real use second and third datasetes
-set.seed(10)
-mech2 <- sample(mech2)
+# set.seed(10)
+# mech2 <- sample(mech2)
 # mech2
-enz2 <- sample(enz2)
+# enz2 <- sample(enz2)
 # enz2
 #######################################
 
@@ -88,22 +92,52 @@ samples <- colnames(flat_matrix)
 # samples
 # Create condition vector and type
 condition <- c('mech','mech', 'enz', 'enz')
-# type <- c('paried-end','paried-end')
-# meta_data <- as.data.frame(cbind(condition, type) )
 meta_data <- as.data.frame(condition)
 rownames(meta_data) <- samples
 # meta_data
+```
 
+```{r, echo=FALSE}
+# # Remove gene rows that are not expressed in any samples
+# flat_matrix <- flat_matrix[rowSums(flat_matrix > 0) != 0, ] 
+```
+
+# Run DGE
+
+
+```{r, message=FALSE, warning=FALSE}
 #####################
 # DGE
 #####################
-# Remove gene rows that are not expressed in any samples
-flat_matrix <- flat_matrix[rowSums(flat_matrix > 0) != 0, ] 
 dds <- DESeqDataSetFromMatrix(countData = flat_matrix, colData = meta_data, design = ~ condition)
-dds <- DESeq(dds)
-res <- results(dds, alpha=THRES)
-( mcols(res)$description ) # info
+```
 
+`DESeq()` details:
+
++ Function runs: 1) est of size factors, est of dispersions, negative binomial generalized linear model (GLM) fitting and wald stats
+
+```{r}
+dds <- DESeq(dds, test ='Wald')
+```
+
+`results()` details (these are outlined in the object printout below too): 
+
++ Adjusted pvals = BH corrected
++ User specified alpha val to use for adjusted pval thresholding for FDR analysis
++ Wald test to assess model fit (compared to likelihood ratio test). Wald test fits full model --> conducts tests for each gene to assess distance from 0 *- using the full model coefficent(s) and their standard error(s)* --> genes with coefficients significantly different than 0 will show this in their log2 fold change (and coefficient is reported as the log2fold change). - several studies have found that **Wald-log test** is better for RNA-seq data than others.
+
+```{r}
+res <- results(dds, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
+( mcols(res)$description ) # info
+```
+
+# Visuals
+
+#### 1. Select diff shrinking method
+
+Options: apeglm, normal, ashr
+
+```{r, echo=FALSE, message=FALSE}
 ###################
 # Visuals and a few downstream analysis
 ###################
@@ -121,13 +155,24 @@ plotMA(resLFC, main="apeglm")
 plotMA(resNorm, main="normal")
 plotMA(resAsh, main="ashr")
 #dev.off()
+```
 
+#### 2. Inspect individual genes
+
+For a given gene, what are the log10 counts between groups?
+
+```{r, echo=FALSE}
 # 2. explore read count for ONE gene across groups
+( gene=which.min(res$padj) )
 d <- plotCounts(dds, gene=which.min(res$padj), intgroup="condition", returnData=TRUE) #which.min return index of smallest pval gene
 ggplot(d, aes(x=condition, y=count)) + 
   geom_point(position=position_jitter(w=0.1,h=0)) + 
   scale_y_log10(breaks=c(25,100,400))
+```
 
+#### 3.  Top DGE genes
+
+```{r, echo=FALSE}
 # 3. Top diff exp genes
 # Sort by most signfi diff (adj pval)
 resOrdered <- res[order(res$padj),]
@@ -135,13 +180,17 @@ resOrdered <- res[order(res$padj),]
 write.csv(as.data.frame(resOrdered), file=output_sortedGenes)    
 # Subset for only signficant genes
 resSig <- subset(resOrdered, padj < THRES)
+resSig
+```
+
+And reporting info
+
+```{r, echo=FALSE}
 print('Number of signficant genes and alpha:')
 ( sum(resOrdered$padj < THRES, na.rm=TRUE) )
-# resSig
+```
 
-
-
-
+```{r, echo=FALSE}
 #################
 # heatmap of normalized and transformed 
 ##################
@@ -162,8 +211,13 @@ pheatmap(assay(vsd)[select,], cluster_rows=FALSE, show_rownames=FALSE, cluster_c
 rld <- rlog(dds, blind=FALSE)
 meanSdPlot(assay(ntd)) #visual of this transformation
 pheatmap(assay(rld)[select,], cluster_rows=FALSE, show_rownames=FALSE, cluster_cols=FALSE)
+```
 
+####  Clustering methods
 
+Options for visuals for presentation: Heatmap or PCA
+
+```{r, echo=FALSE}
 #############
 # Sample clustering - do we see samples from the same treatment grouping together
   # using vsd for now
