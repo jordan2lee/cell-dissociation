@@ -17,6 +17,7 @@ raw-data/*
 data/.DS_Store
 data/01_process-bulkrna/*
 
+almudena-data/
 
 data/02_process-scrna/7319_Enz/
 data/02_process-scrna/7319_Mech/
