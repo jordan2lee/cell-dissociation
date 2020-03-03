@@ -19,7 +19,7 @@ basename=${5}
 threads=${6}
 
 # dir=/home/groups/EllrottLab/cell-dissociation
-# ses=patient_7319
+# ses=patient_7319_B2
 # read1=P2000996_02292020/FASTQ/SCC_7319_B2_R1.fastq.gz
 # read2=P2000996_02292020/FASTQ/SCC_7319_B2_R2.fastq.gz
 # basename=SCC_7319_B2
