@@ -33,7 +33,7 @@ STAR aligner. Job ID 12460222
 
 
 
-# Step 2: `RUN.sh`
+# Step 2: `RUN.sh` via `wrapper.sh`
 
 Job ID 12467117
 
