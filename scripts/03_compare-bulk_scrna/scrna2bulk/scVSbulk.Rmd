@@ -1,7 +1,7 @@
 ---
 title: "dge"
-author: "Jordan Lee"
-date: "2/28/2020"
+author: "Jordan A. Lee"
+date:  "2/28/2020 - `r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
 
@@ -186,7 +186,7 @@ rownames(meta_data) <- samples
 # DGE
 #####################
 # Remove gene rows that are lowly expr in samples - filter low counts <10 ct
-flat_matrix_enz <- flat_matrix_eenz[rowSums(flat_matrix_enz > 10) != 0, ]
+flat_matrix_enz <- flat_matrix_enz[rowSums(flat_matrix_enz > 10) != 0, ]
 dds_obj_enz <- DESeqDataSetFromMatrix(countData = flat_matrix_enz, colData = meta_data, design = ~ condition)
 # DGE based on neg binom distr
 dds_enz <- DESeq(dds_obj_enz, test ='Wald')
