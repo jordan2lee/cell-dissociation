@@ -35,12 +35,10 @@ Building a reference genome requires reference Ensembl files and this pipeline a
 
 + GTF for STAR and featureCounts `wget ftp://ftp.ensembl.org/pub/release-99/gtf/homo_sapiens/Homo_sapiens.GRCh38.98.gtf.gz`
 
-# 1. Preprocessing Bulk RNA-seq Samples
+
+# 1. PREPROCESSING BULK RNA-SEQ WORKFLOW
 
 **PURPOSE: to take raw sequencing reads and convert to a gene count matrix**
-
-
-# PREPROCESSING BULK RNA-SEQ WORKFLOW
 
 <details><summary>Click for more info</summary><p>
 
@@ -54,7 +52,7 @@ The dir `scripts/01_process-bulkrna/` contains the scripts for processing raw se
 
 *Step 2:*
 
-1. Demultiplex reads
+1. Demultiplex reads - *skip because seq core did this for us*
 2. Read quality control
 3. Adapter and poor quality read trimming
 4. Check read quality
@@ -74,7 +72,7 @@ Job ID 12467117
 
 ### Demultiplex Reads
 
-**[TODO] Will be added once have seq results from the Core**
+Sequencing core completed this for us. Therefore not included in our built pipeline.
 
 ### Read Quality Control (Docker)
 
