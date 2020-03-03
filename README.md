@@ -108,7 +108,7 @@ All additional data outside of our project. Will be used for deconvolution model
 </details>
 
 
-# 2. PREPROCESSING BULK RNA-SEQ WORKFLOW
+# 2. PREPROCESSING BULK RNA-SEQ ANALYSIS
 
 **PURPOSE: to take raw sequencing reads and convert to a gene count matrix**
 
@@ -196,7 +196,7 @@ Example CWL included in this scripts dir and will be implemented for publication
 
 </details>
 
-# 3. PREPROCESSING SINGLE CELL RNA-SEQ WORKFLOW
+# 3. PREPROCESSING SINGLE CELL RNA-SEQ ANALYSIS
 
 **PURPOSE: to take raw sequencing reads and convert to a gene-cell count matrix**
 
@@ -209,7 +209,7 @@ Scripts here
 </details>
 
 
-# 3. COMPARING PSEUDO-BULK TO BULK SAMPLE WORKFLOW
+# 4. COMPARING PSEUDO-BULK TO BULK SAMPLE ANALYSIS (WIP)
 
 **PURPOSE: to convert scRNA gene-cell count matrices into a pseudo-bulk count matrix. Then compare this pseduo-bulk data to the bulk RNA count matrix**
 
@@ -218,5 +218,17 @@ Base script dir `scripts/03_compare-bulk_scrna/scrna2bulk/`
 <details><summary>Click for details</summary><p>
 
 Analysis hardcoded in `dge.Rmd` and the rendered version `dge.html`
+
+</details>
+
+# 5. COMPARING PREDICTED CELL POPULATIONS TO SINGLE CELL SAMPLE ANALYSIS (WIP)
+
+**PURPOSE: to convert bulk RNA count matrices into a pseudo-scRNA count matrix - this will be achieved by the cell-wise predictions of several deconvolution algorithms. Then compare this pseduo-scRNA data to the scRNA gene-cell count matrix**
+
+Base script dir `scripts/03_compare-bulk_scrna/deconv/`
+
+<details><summary>Click for details</summary><p>
+
+Scripts here
 
 </details>
