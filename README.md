@@ -112,7 +112,9 @@ All additional data outside of our project. Will be used for deconvolution model
 
 **PURPOSE: to take raw sequencing reads and convert to a gene count matrix**
 
-<details><summary>Click for more info</summary><p>
+Base script dir `scripts/01_process-bulkrna/`
+
+<details><summary>Click for details</summary><p>
 
 The dir `scripts/01_process-bulkrna/` contains the scripts for processing raw sequence reads of bulk RNA-seq samples through generating count matrices and inspecting count matrices for odd occurances
 
@@ -191,5 +193,30 @@ featureCounts (gene-level counting) and produces final count matrix `${basename}
 ### Additional Notes
 
 Example CWL included in this scripts dir and will be implemented for publication. For now it is simply placed there as an example.
+
+</details>
+
+# 3. PREPROCESSING SINGLE CELL RNA-SEQ WORKFLOW
+
+**PURPOSE: to take raw sequencing reads and convert to a gene-cell count matrix**
+
+Base script dir `scripts/02_process-scrna/`
+
+<details><summary>Click for details</summary><p>
+
+Scripts here
+
+</details>
+
+
+# 3. COMPARING PSEUDO-BULK TO BULK SAMPLE WORKFLOW
+
+**PURPOSE: to convert scRNA gene-cell count matrices into a pseudo-bulk count matrix. Then compare this pseduo-bulk data to the bulk RNA count matrix**
+
+Base script dir `scripts/03_compare-bulk_scrna/scrna2bulk/`
+
+<details><summary>Click for details</summary><p>
+
+Analysis hardcoded in `dge.Rmd` and the rendered version `dge.html`
 
 </details>
