@@ -209,7 +209,19 @@ Scripts here
 </details>
 
 
-# 4. COMPARING PSEUDO-BULK TO BULK SAMPLE ANALYSIS (WIP)
+# 4. IDENTIFY DISSOCIATION SIGNATURES IN SC-RNA DATA ALONE (WIP)
+
+**PURPOSE: to identify cell populations through gene marker analysis in single cell data. In otherwords, comparing profile of mechanical dissociation scRNA-seq to enzymatic scRNA-seq**
+
+Base script dir `scripts/03_compare-bulk_scrna/signatures/`
+
+<details><summary>Click for details</summary><p>
+
+Scripts here
+
+</details>
+
+# 5. COMPARING PSEUDO-BULK TO BULK SAMPLE ANALYSIS (WIP)
 
 **PURPOSE: to convert scRNA gene-cell count matrices into a pseudo-bulk count matrix. Then compare this pseduo-bulk data to the bulk RNA count matrix**
 
@@ -221,7 +233,7 @@ Analysis hardcoded in `dge.Rmd` and the rendered version `dge.html`
 
 </details>
 
-# 5. COMPARING PREDICTED CELL POPULATIONS TO SINGLE CELL SAMPLE ANALYSIS (WIP)
+# 6. COMPARING PREDICTED CELL POPULATIONS TO SINGLE CELL SAMPLE ANALYSIS (WIP)
 
 **PURPOSE: to convert bulk RNA count matrices into a pseudo-scRNA count matrix - this will be achieved by the cell-wise predictions of several deconvolution algorithms. Then compare this pseduo-scRNA data to the scRNA gene-cell count matrix**
 
