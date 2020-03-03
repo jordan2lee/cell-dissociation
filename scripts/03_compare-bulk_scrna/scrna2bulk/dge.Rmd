@@ -11,7 +11,8 @@ This is a html version of dge.R as of end of day 2/28/20
 # Disclaimer: hardcoded names of patients in flat_matrix
 # hard coded condition vector
 ####################
-file_bulk <-'/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/01_process-bulkrna/07_ct_matrices/TESTDATA--UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22_COUNTmatrix.txt'
+file_bulk1 <-'/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/01_process-bulkrna/07_ct_matrices/SCC_7319_B2_COUNTmatrix.txt'
+file_bulk2 <-'/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/01_process-bulkrna/07_ct_matrices/SCC_7320_B2_COUNTmatrix.tx'
 countsMECH_1_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Mech/'
 countsENZ_1_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Enz/'
 countsMECH_2_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7320_Mech/'
@@ -95,6 +96,7 @@ condition <- c('mech','mech', 'enz', 'enz')
 meta_data <- as.data.frame(condition)
 rownames(meta_data) <- samples
 # meta_data
+
 ```
 
 ```{r, echo=FALSE}
