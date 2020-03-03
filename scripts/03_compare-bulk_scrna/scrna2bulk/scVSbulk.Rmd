@@ -212,3 +212,67 @@ rownames(annC) <- colnames(sig.dat)
 pheatmap(sig.dat, scale='row', fontsize_row=9,annotation_col = annC, show_rownames = FALSE, cluster_cols = TRUE, cluster_rows=TRUE)
 ```
 
+# Part 3. Comparing scRNA-mech pseudo, scRNA-enz pseudo, and bulk
+
+```{r, message=FALSE, echo=FALSE}
+############################
+# Create count matrices for DGE
+############################
+# Combine mech samples
+flat_matrix_mech <- merge(mech1, mech2, by =0, all=TRUE) #merge by rowname
+colnames(flat_matrix_mech) <- c("ensID",scmech_base_names)
+# Combine enz samples
+flat_matrix_enz <- merge(enz1, enz2, by =0, all=TRUE) #merge by rowname
+colnames(flat_matrix_enz) <- c("ensID",scenz_base_names)
+# Combine mech and enz samples
+flat_matrix_ALL <- merge(flat_matrix_mech, flat_matrix_enz, by ='ensID', all=TRUE) #merge by rowname
+# Combine mech, enz, bulk
+flat_matrix_ALL <- merge(flat_matrix_BULK, flat_matrix_ALL, by='ensID', all=TRUE)
+# Replace NA --> 0 
+flat_matrix_ALL[is.na(flat_matrix_ALL)]=0
+# Now that have combined properly fix so that rowname are genes
+flat_matrix_ALL <- column_to_rownames(flat_matrix_ALL, var='ensID')
+
+
+############################
+# Create meta data table of which samples are which treatment - needed for Deseq2
+#############################
+# Grab samples in order
+samples <- colnames(flat_matrix_ALL)
+# Create condition vector and type
+condition <- c('bulk','bulk', 'mech', 'mech', 'enz', 'enz')
+meta_data <- as.data.frame(condition)
+rownames(meta_data) <- samples
+
+
+#####################
+# DGE
+#####################
+# Remove gene rows that are lowly expr in samples - filter low counts <10 ct
+flat_matrix_ALL <- flat_matrix_ALL[rowSums(flat_matrix_ALL > 10) != 0, ]
+dds_obj_ALL <- DESeqDataSetFromMatrix(countData = flat_matrix_ALL, colData = meta_data, design = ~ condition)
+# DGE based on neg binom distr
+dds_ALL <- DESeq(dds_obj_ALL, test ='Wald')
+res_ALL <- results(dds_ALL, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
+( mcols(res_ALL)$description ) # info
+
+
+###############
+# Examine results
+###############
+#MA plot
+print('MA plot of non-transformed counts')
+plotMA(res_ALL, ylim=c(-5,5), alpha = THRES)
+# "Table" of top diff expr
+print('Most differ expr genes of non-transformed counts')
+topgenes <- rownames(res_ALL)[res_ALL$padj <= sort(res_ALL$padj)[25] &!is.na(res_ALL$padj)]
+print(topgenes)
+# Heatmap - use transformed counts
+print('Heatmap of all transformed counts')
+rld <- rlogTransformation(dds_ALL, blind=FALSE)
+sig.dat <- assay(rld)[res_ALL$padj < THRES & !is.na(res_ALL$padj), ]
+annC <- data.frame(condition=condition)
+rownames(annC) <- colnames(sig.dat)
+pheatmap(sig.dat, scale='row', fontsize_row=9,annotation_col = annC, show_rownames = FALSE, cluster_cols = TRUE, cluster_rows=TRUE)
+```
+
