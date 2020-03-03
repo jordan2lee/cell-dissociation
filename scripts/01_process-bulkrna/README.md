@@ -2,6 +2,9 @@
 
 This dir contains the scripts for processing raw sequence reads of bulk RNA-seq samples through generating count matrices and inspecting count matrices for odd occurances
 
+**The wrapper script allows for batch scripting tracking** `wrapper.sh`
+
+
 ## Analysis Overview
 
 *Step 1:*

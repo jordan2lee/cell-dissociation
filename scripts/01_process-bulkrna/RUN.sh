@@ -2,7 +2,7 @@
 
 #SBATCH --nodes=1
 #SBATCH --job-name=docker_bulkpipeline
-#SBATCH --time=0-00:10:00
+#SBATCH --time=0-03:00:00
 #SBATCH --partition=exacloud
 #SBATCH --ntasks=6
 #SBATCH --cpus-per-task=1
@@ -11,13 +11,19 @@
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=leejor@ohsu.edu
 
+dir=${1}
+ses=${2}
+read1=${3}
+read2=${4}
+basename=${5}
+threads=${6}
 
-dir=/home/groups/EllrottLab/cell-dissociation
-ses=round1
-read1=TESTDATA--UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read1.fastq.gz
-read2=TESTDATA--UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22.read2.fastq.gz
-basename=TESTDATA--UHR_Rep1_ERCC-Mix1_Build37-ErccTranscripts-chr22
-threads=1
+# dir=/home/groups/EllrottLab/cell-dissociation
+# ses=patient_7319
+# read1=P2000996_02292020/FASTQ/SCC_7319_B2_R1.fastq.gz
+# read2=P2000996_02292020/FASTQ/SCC_7319_B2_R2.fastq.gz
+# basename=SCC_7319_B2
+# threads=5
 
 ################
 # Set up workspace
@@ -137,6 +143,25 @@ sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
     -a /tmp/raw-data/reference_files/TEMP-ref.gtf \
     -o /tmp/output/07_ct_matrices/${basename}_prelim_COUNTmatrix.txt /tmp/output/06_star/${basename}_mapped-unsortedAligned.out.bam
 
+# ##############################
+# # Quantify reads: htseq-count
+# ##############################
+# # htseq-count requires decompressed input files
+# zcat /mnt/scratch/5420/${ses}/raw-data/reference_files/Homo_sapiens.GRCh38.98.gtf.gz > /mnt/scratch/5420/${ses}/raw-data/reference_files/TEMP-ref.gtf
+# echo '##### Create count matrix #####'
+# sudo /opt/acc/sbin/exadocker pull jhart99/htseq:latest
+# sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
+#     alexgilgal/featurecount:latest \
+#     featureCounts \
+#     -T ${threads} -F GTF \
+#     -g gene_id -t exon \
+#     -R \
+#     -s 1 \
+#     -a /tmp/raw-data/reference_files/TEMP-ref.gtf \
+#     -o /tmp/output/07_ct_matrices/${basename}_prelim_COUNTmatrix.txt /tmp/output/06_star/${basename}_mapped-unsortedAligned.out.bam
+
+
+
 ##############################
 # Extract gene counts from count matrix
 ###############################
@@ -149,4 +174,4 @@ cut -f 1,7,8,9,10,11,12 /mnt/scratch/5420/${ses}/output/07_ct_matrices/${basenam
 echo '##### Cleaning up workspace #####'
 cp -r /mnt/scratch/5420/${ses}/output/* /home/groups/EllrottLab/cell-dissociation/data/01_process-bulkrna/
 rm -rf /mnt/scratch/5420/${ses}
-rm -rf /mnt/scratch/5420 #run only if not currently running other jobs
+# rm -rf /mnt/scratch/5420 #run only if not currently running other jobs
