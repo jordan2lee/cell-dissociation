@@ -7,6 +7,20 @@ output: html_document
 
 This is a html version of dge.R as of end of day 2/28/20
 
+# Background
+
+`DESeq()` details:
+
++ Function runs: 1) est of size factors, est of dispersions, negative binomial generalized linear model (GLM) fitting and wald stats
+
+`results()` details (these are outlined in the object printout below too): 
+
++ Adjusted pvals = BH corrected
++ User specified alpha val to use for adjusted pval thresholding for FDR analysis
++ Wald test to assess model fit (compared to likelihood ratio test). Wald test fits full model --> conducts tests for each gene to assess distance from 0 *- using the full model coefficent(s) and their standard error(s)* --> genes with coefficients significantly different than 0 will show this in their log2 fold change (and coefficient is reported as the log2fold change). - several studies have found that **Wald-log test** is better for RNA-seq data than others.
+
+# Analysis
+
 ```{r, cache=TRUE}
 # Disclaimer: hardcoded names of patients in flat_matrix
 # hard coded condition vector
@@ -42,7 +56,7 @@ library(tibble)
 
 # Create combined matrices of mech and enz 
 
-Read in files and create pseudo-bulk (take the sum of raw gene counts across all cell barcodes and report that as the pseudo-bulk gene count)
+Read in files and create pseudo-bulk (take the sum of raw gene counts across all cell barcodes and report that as the pseudo-bulk gene count). Preprocessing steps shown in `.Rmd`
 
 ```{r, cache=TRUE, echo=FALSE}
 ###############################
@@ -53,14 +67,11 @@ counts_mech1 <- Read10X(data.dir = countsMECH_1_matrix_dir, gene.column = 1)
 counts_enz1 <- Read10X(data.dir = countsENZ_1_matrix_dir, gene.column = 1)
 counts_mech2 <- Read10X(data.dir = countsMECH_2_matrix_dir,gene.column = 1)
 counts_enz2 <- Read10X(data.dir = countsENZ_2_matrix_dir, gene.column = 1)
-
 # convert to dense matrix
 counts_mech1 <- as.matrix(counts_mech1) 
 counts_enz1 <- as.matrix(counts_enz1) 
 counts_mech2 <- as.matrix(counts_mech2) 
 counts_enz2 <- as.matrix(counts_enz2) 
-
-
 ######## Subset for testing ###########
 # counts_mech1 <- counts_mech1[256:260, 1:3]
 # counts_mech1 <- counts_mech1[493:498, 1:3]
@@ -72,48 +83,39 @@ counts_enz2 <- as.matrix(counts_enz2)
 # counts_enz2 <- counts_enz2[493:498, 1:3]
 # counts_enz2
 #######################################
-
 # Flaten counts (sum all cells for a gene) + combine matrices
 mech1 <- as.data.frame(rowSums(counts_mech1))
 enz1 <- as.data.frame(rowSums(counts_enz1)) 
 mech2 <- as.data.frame(rowSums(counts_mech2)) 
 enz2 <- as.data.frame(rowSums(counts_enz2)) 
-```
 
-# Create objects for DGE for both comparisons
 
-Comparing scRNA-mech pseudo vs bulk. Comparing scRNA-enz pseudo vs bulk.
-
-```{r}
+########################
 # Read in bulk samples and create a unified count matrix
+########################
 b1 <- read.table(file=file_bulk1, sep='\t', header=TRUE)
 b2 <- read.table(file=file_bulk2, sep='\t', header=TRUE)
+# Combined bulk matrix
 flat_matrix_BULK <- merge(b1, b2, by ='Geneid', all=TRUE ) #merge by rowname
 colnames(flat_matrix_BULK) <- c('ensID',bulk_base_names)
-flat_matrix_BULK
-print(dim(flat_matrix_BULK))
 ```
 
 
+# Part 1. Comparing scRNA-mech pseudo vs bulk
 
-```{r}
+```{r, message=FALSE, echo=FALSE}
+############################
 # Create count matrices for DGE
+############################
 flat_matrix_mech <- merge(mech1, mech2, by =0, all=TRUE) #merge by rowname
 colnames(flat_matrix_mech) <- c("ensID",scmech_base_names)
-
 # Add bulk samples in
 flat_matrix_mech <- merge(flat_matrix_BULK, flat_matrix_mech, by='ensID', all=TRUE)
-
 # Replace NA --> 0 
 flat_matrix_mech[is.na(flat_matrix_mech)]=0
-flat_matrix_mech
-
 # Now that have combined properly fix so that rowname are genes
 flat_matrix_mech <- column_to_rownames(flat_matrix_mech, var='ensID')
-flat_matrix_mech
-```
 
-```{r}
 ############################
 # Create meta data table of which samples are which treatment - needed for Deseq2
 #############################
@@ -123,245 +125,90 @@ samples <- colnames(flat_matrix_mech)
 condition <- c('bulk','bulk', 'mech', 'mech')
 meta_data <- as.data.frame(condition)
 rownames(meta_data) <- samples
-meta_data
-```
 
-
-
-# Run DGE
-
-```{r, message=FALSE, warning=FALSE}
 #####################
 # DGE
 #####################
 # Remove gene rows that are lowly expr in samples - filter low counts <10 ct
 flat_matrix_mech <- flat_matrix_mech[rowSums(flat_matrix_mech > 10) != 0, ]
-dds_obj <- DESeqDataSetFromMatrix(countData = flat_matrix_mech, colData = meta_data, design = ~ condition)
-```
-
-`DESeq()` details:
-
-+ Function runs: 1) est of size factors, est of dispersions, negative binomial generalized linear model (GLM) fitting and wald stats
-
-```{r}
+dds_obj_mech <- DESeqDataSetFromMatrix(countData = flat_matrix_mech, colData = meta_data, design = ~ condition)
 # DGE based on neg binom distr
-dds <- DESeq(dds_obj, test ='Wald')
-```
-
-`results()` details (these are outlined in the object printout below too): 
-
-+ Adjusted pvals = BH corrected
-+ User specified alpha val to use for adjusted pval thresholding for FDR analysis
-+ Wald test to assess model fit (compared to likelihood ratio test). Wald test fits full model --> conducts tests for each gene to assess distance from 0 *- using the full model coefficent(s) and their standard error(s)* --> genes with coefficients significantly different than 0 will show this in their log2 fold change (and coefficient is reported as the log2fold change). - several studies have found that **Wald-log test** is better for RNA-seq data than others.
-
-```{r}
-res <- results(dds, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
-( mcols(res)$description ) # info
-```
-
-# Visuals
-
-#### 1. Select diff shrinking method
-
-Options: apeglm, normal, ashr
-
-```{r, echo=FALSE, message=FALSE}
-###################
-# Visuals and a few downstream analysis
-###################
-# 1. explore diff shrinking methods
-    # Shrink logfoldchange - remove noise + more conserv + tend to align closer to trends in larger sample sizes
-( resultsNames(dds) )
-resLFC <- lfcShrink(dds, coef=resultsNames(dds)[2], type="apeglm")
-resNorm <- lfcShrink(dds, coef=resultsNames(dds)[2], type="normal")
-resAsh <- lfcShrink(dds, coef=resultsNames(dds)[2], type="ashr")
-
-par(mfrow=c(2,2), mar=c(4,4,2,1))
-xlim <- c(1,1e5); ylim <- c(-3,3)
-plotMA(res, main='no shrinking')
-plotMA(resLFC, main="apeglm")
-plotMA(resNorm, main="normal")
-plotMA(resAsh, main="ashr")
-#dev.off()
-```
-
-#### 2. Inspect individual genes
-
-For a given gene, what are the log10 counts between groups?
-
-```{r, echo=FALSE}
-# 2. explore read count for ONE gene across groups
-( gene=which.min(res$padj) )
-d <- plotCounts(dds, gene=which.min(res$padj), intgroup="condition", returnData=TRUE) #which.min return index of smallest pval gene
-ggplot(d, aes(x=condition, y=count)) + 
-  geom_point(position=position_jitter(w=0.1,h=0)) + 
-  scale_y_log10(breaks=c(25,100,400))
-```
-
-#### 3.  Top DGE genes
-
-```{r, echo=FALSE}
-# 3. Top diff exp genes
-# Sort by most signfi diff (adj pval)
-resOrdered <- res[order(res$padj),]
-( summary(resOrdered) )
-write.csv(as.data.frame(resOrdered), file=output_sortedGenes)    
-# Subset for only signficant genes
-resSig <- subset(resOrdered, padj < THRES)
-resSig
-```
-
-And reporting info
-
-```{r, echo=FALSE}
-print('Number of signficant genes and alpha:')
-( sum(resOrdered$padj < THRES, na.rm=TRUE) )
-```
-
-```{r, echo=FALSE}
-#################
-# heatmap of normalized and transformed 
-##################
-select <- order(rowMeans(counts(dds,normalized=TRUE)), decreasing=TRUE)[1:40] #top 40 
-
-# Transform 1: 
-ntd <- normTransform(dds)
-meanSdPlot(assay(ntd)) #visual of this transformation
-select <- order(rowMeans(counts(dds,normalized=TRUE)), decreasing=TRUE)[1:40] #top 40 
-pheatmap(assay(ntd)[select,], cluster_rows=FALSE, show_rownames=FALSE, cluster_cols=FALSE)
-
-# Transform 2: 
-vsd <- vst(dds, blind=FALSE)
-meanSdPlot(assay(ntd)) #visual of this transformation
-pheatmap(assay(vsd)[select,], cluster_rows=FALSE, show_rownames=FALSE, cluster_cols=FALSE)
-
-# Transform 3: 
-rld <- rlog(dds, blind=FALSE)
-meanSdPlot(assay(ntd)) #visual of this transformation
-pheatmap(assay(rld)[select,], cluster_rows=FALSE, show_rownames=FALSE, cluster_cols=FALSE)
-```
-
-####  Clustering methods
-
-Options for visuals for presentation: Heatmap or PCA
-
-```{r, echo=FALSE}
-#############
-# Sample clustering - do we see samples from the same treatment grouping together
-  # using vsd for now
-############
-sampleDists <- dist(t(assay(vsd)))
-sampleDistMatrix <- as.matrix(sampleDists)
-rownames(sampleDistMatrix) <- paste(vsd$condition, sep="-")
-colnames(sampleDistMatrix) <- NULL
-colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
-pheatmap(sampleDistMatrix,
-         clustering_distance_rows=sampleDists,
-         clustering_distance_cols=sampleDists,
-         col=colors)
-
+dds_mech <- DESeq(dds_obj_mech, test ='Wald')
+res_mech <- results(dds_mech, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
+( mcols(res_mech)$description ) # info
 
 ###############
-# PCA 
-  # using vsd for now 
-##############
-plotPCA(vsd, intgroup=c("condition"))
-```
-
-# DEV
-
-Raw counts used for DE but when want to visualize and cluster this data, we want to transform our data.
-
-Transformations: purpose to remove dependence of variance on the mean gene count
-
-````{r}
+# Examine results
 ###############
-# Transformations
-###############
-# Red line= running median estimator
-
-# Transform 1: variance stabilizing transformations -> norm, output log2 scale
-vsd <- vst(dds, blind=TRUE)
-meanSdPlot(assay(vsd)) #visual of this transformation
-
-# Transform 2: regularized logarithm -> norm, output log2 sscale
-rld <- rlog(dds, blind=TRUE)
-meanSdPlot(assay(rld)) #visual of this transformation
-
-# Transform 3: log2(n+1)
-ntd <- normTransform(dds)
-meanSdPlot(assay(ntd)) #visual of this transformation
-```
-
-**in this case `rlog` looks the best for mech samples vs bulk. we will continue using this only**
-
-Now let's look at these diff expressed genes
-
-```{r, echo=FALSE}
-# Top diff exp genes
-# Sort by most signfi diff (adj pval)
-resOrdered <- res[order(res$padj),]
-( summary(resOrdered) )
-write.csv(as.data.frame(resOrdered), file=output_sortedGenes)    
-# Subset for only signficant genes
-resSig <- subset(resOrdered, padj < THRES)
-resSig
-```
-
-
-```{r}
-#lets look at the logfold changes
-par(mfrow=c(2,2), mar=c(4,4,2,1))
-plot(resSig$log2FoldChange)
-# Only intrested in top 100 genes
-top100 <-resSig$log2FoldChange[0:100]
-plot(top100)
-# Only intrested in top 25 genes
-top25 <-resSig$log2FoldChange[0:25]
-plot(top25)
-```
-
-**based on the above plots, it appears to tapper beyond top 25 genes.**
-
-now let's visualize these genes
-
-```{r}
-select <- order(rowMeans(counts(dds,normalized=TRUE)),decreasing=TRUE)[1:20]
-pheatmap(assay(rld)[select,], cluster_rows=FALSE, cluster_cols=FALSE)
-
-
-select <- order(rowMeans()),decreasing=TRUE)[1:20]
-counts(dds,normalized=TRUE)
-
-# Plot correlation heatmap
-library(gplots)
-cU <-cor( as.matrix(assay(rld)))
-cols <- c( 'dodgerblue3', 'firebrick3' )[condition]
-heatmap.2(cU, symm=TRUE,labCol=colnames(cU),labRow=colnames(cU),distfun=function(c) as.dist(1 - c), trace='none', Colv=TRUE, cexRow=0.9,cexCol=0.9, key=F, font=2,RowSideColors=cols, ColSideColors=cols)
-
-```
-
-
-# DEV 2
-
-Get results of DGE
-
-```{r}
-res <- results(dds, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
-( mcols(res)$description ) # info
-```
-
-Create figs of sign diff genes
-
-```{r}
-plotMA(res, ylim=c(-5,5), alpha = THRES)
-
-topgenes <- rownames(res)[res$padj <= sort(res$padj)[25] &!is.na(res$padj)]
+#MA plot
+print('MA plot of non-transformed counts')
+plotMA(res_mech, ylim=c(-5,5), alpha = THRES)
+# "Table" of top diff expr
+print('Most differ expr genes of non-transformed counts')
+topgenes <- rownames(res_mech)[res_mech$padj <= sort(res_mech$padj)[25] &!is.na(res_mech$padj)]
 print(topgenes)
-
-sig.dat <- assay(rld)[res$padj < THRES & !is.na(res$padj), ]
+# Heatmap - use transformed counts
+print('Heatmap of all transformed counts')
+rld <- rlogTransformation(dds_mech, blind=FALSE)
+sig.dat <- assay(rld)[res_mech$padj < THRES & !is.na(res_mech$padj), ]
 annC <- data.frame(condition=condition)
 rownames(annC) <- colnames(sig.dat)
-pheatmap(sig.dat, scale='row', fontsize_row=9,annotation_col = annC, show_rownames = FALSE)
+pheatmap(sig.dat, scale='row', fontsize_row=9,annotation_col = annC, show_rownames = FALSE, cluster_cols = TRUE, cluster_rows=TRUE)
+```
+
+
+# Part 2. Comparing scRNA-enz pseudo vs bulk
+
+```{r, message=FALSE, echo=FALSE}
+############################
+# Create count matrices for DGE
+############################
+flat_matrix_enz <- merge(enz1, enz2, by =0, all=TRUE) #merge by rowname
+colnames(flat_matrix_enz) <- c("ensID",scenz_base_names)
+# Add bulk samples in
+flat_matrix_enz <- merge(flat_matrix_BULK, flat_matrix_enz, by='ensID', all=TRUE)
+# Replace NA --> 0 
+flat_matrix_enz[is.na(flat_matrix_enz)]=0
+# Now that have combined properly fix so that rowname are genes
+flat_matrix_enz <- column_to_rownames(flat_matrix_enz, var='ensID')
+
+############################
+# Create meta data table of which samples are which treatment - needed for Deseq2
+#############################
+# Grab samples in order
+samples <- colnames(flat_matrix_enz)
+# Create condition vector and type
+condition <- c('bulk','bulk', 'enz', 'enz')
+meta_data <- as.data.frame(condition)
+rownames(meta_data) <- samples
+
+#####################
+# DGE
+#####################
+# Remove gene rows that are lowly expr in samples - filter low counts <10 ct
+flat_matrix_enz <- flat_matrix_eenz[rowSums(flat_matrix_enz > 10) != 0, ]
+dds_obj_enz <- DESeqDataSetFromMatrix(countData = flat_matrix_enz, colData = meta_data, design = ~ condition)
+# DGE based on neg binom distr
+dds_enz <- DESeq(dds_obj_enz, test ='Wald')
+res_enz <- results(dds_enz, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
+( mcols(res_enz)$description ) # info
+
+###############
+# Examine results
+###############
+#MA plot
+print('MA plot of non-transformed counts')
+plotMA(res_enz, ylim=c(-5,5), alpha = THRES)
+# "Table" of top diff expr
+print('Most differ expr genes of non-transformed counts')
+topgenes <- rownames(res_enz)[res_enz$padj <= sort(res_enz$padj)[25] &!is.na(res_enz$padj)]
+print(topgenes)
+# Heatmap - use transformed counts
+print('Heatmap of all transformed counts')
+rld <- rlogTransformation(dds_enz, blind=FALSE)
+sig.dat <- assay(rld)[res_enz$padj < THRES & !is.na(res_enz$padj), ]
+annC <- data.frame(condition=condition)
+rownames(annC) <- colnames(sig.dat)
+pheatmap(sig.dat, scale='row', fontsize_row=9,annotation_col = annC, show_rownames = FALSE, cluster_cols = TRUE, cluster_rows=TRUE)
 ```
 
