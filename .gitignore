@@ -25,3 +25,6 @@ data/02_process-scrna/7319_Mech/
 data/03_compare-bulk_scrna/scrna2bulk/
 data/02_process-scrna/7320_Enz/
 data/02_process-scrna/7320_Mech/
+
+scripts/03_compare-bulk_scrna/scrna2bulk/scVSbulk_cache/
+scripts/03_compare-bulk_scrna/scrna2bulk/scVSbulk_files/
