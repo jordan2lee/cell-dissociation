@@ -269,7 +269,7 @@ gathered <- inner_join(m_tibble, gathered,by="samplename")
 ggplot(gathered) +
         geom_point(aes(x = gene, y = normalized_counts, color = condition)) +
         scale_y_log10() +
-        xlab("Genes") +
+        xlab("Genes (Ranked)") +
         ylab("log10 Normalized Counts") +
         ggtitle("Top 25 Significant DE Genes") +
         theme_bw() +
@@ -377,7 +377,7 @@ gathered <- inner_join(m_tibble, gathered,by="samplename")
 ggplot(gathered) +
         geom_point(aes(x = gene, y = normalized_counts, color = condition)) +
         scale_y_log10() +
-        xlab("Genes") +
+        xlab("Genes (Ranked)") +
         ylab("log10 Normalized Counts") +
         ggtitle("Top 25 Significant DE Genes") +
         theme_bw() +
@@ -484,7 +484,7 @@ gathered <- inner_join(m_tibble, gathered,by="samplename")
 ggplot(gathered) +
         geom_point(aes(x = gene, y = normalized_counts, color = condition)) +
         scale_y_log10() +
-        xlab("Genes") +
+        xlab("Genes (Ranked)") +
         ylab("log10 Normalized Counts") +
         ggtitle("Top 25 Significant DE Genes") +
         theme_bw() +
