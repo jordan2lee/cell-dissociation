@@ -137,29 +137,11 @@ sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
     alexgilgal/featurecount:latest \
     featureCounts \
     -T ${threads} -F GTF \
-    -g gene_id -t exon \
+    -g gene_id -p \
     -R \
     -s 1 \
     -a /tmp/raw-data/reference_files/TEMP-ref.gtf \
     -o /tmp/output/07_ct_matrices/${basename}_prelim_COUNTmatrix.txt /tmp/output/06_star/${basename}_mapped-unsortedAligned.out.bam
-
-# ##############################
-# # Quantify reads: htseq-count
-# ##############################
-# # htseq-count requires decompressed input files
-# zcat /mnt/scratch/5420/${ses}/raw-data/reference_files/Homo_sapiens.GRCh38.98.gtf.gz > /mnt/scratch/5420/${ses}/raw-data/reference_files/TEMP-ref.gtf
-# echo '##### Create count matrix #####'
-# sudo /opt/acc/sbin/exadocker pull jhart99/htseq:latest
-# sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
-#     alexgilgal/featurecount:latest \
-#     featureCounts \
-#     -T ${threads} -F GTF \
-#     -g gene_id -t exon \
-#     -R \
-#     -s 1 \
-#     -a /tmp/raw-data/reference_files/TEMP-ref.gtf \
-#     -o /tmp/output/07_ct_matrices/${basename}_prelim_COUNTmatrix.txt /tmp/output/06_star/${basename}_mapped-unsortedAligned.out.bam
-
 
 
 ##############################
