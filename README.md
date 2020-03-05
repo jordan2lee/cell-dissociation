@@ -144,10 +144,8 @@ STAR aligner. Job ID 12460222
 
 Job IDs:
 
-+ SCC_7319_B2_R1.fastq.gz – job id 12515579
-+ SCC_7319_B2_R2.fastq.gz – job id 12515580
-+ SCC_7319_GT_R1.fastq.gz – job id 12515709
-+ SCC_7320_GT_R1.fastq.gz – job id 12515710
++ SCC_7319_B2_R1.fastq.gz, SCC_7319_B2_R2.fastq.gz, SCC_7319_GT_R1.fastq.gz, SCC_7320_GT_R1.fastq.gz
++ job id: 12555708, 12555709, 12555710, 12555711
 
 
 ### Demultiplex Reads
