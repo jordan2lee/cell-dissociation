@@ -1,0 +1,46 @@
+##### QC raw reads #####
+starting read 1
+Trying to pull repository docker.io/biocontainers/fastqc ... 
+v0.11.8dfsg-2-deb_cv1: Pulling from docker.io/biocontainers/fastqc
+Digest: sha256:9d41ec0bc4f413abe9e5290c91e3edfaa215fc47e8e11df18691cfa870df6d91
+Status: Image is up to date for docker.io/biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
+starting read 2
+##### Trim low qual raw reads #####
+Trying to pull repository quay.io/biocontainers/trimmomatic ... 
+0.39--1: Pulling from quay.io/biocontainers/trimmomatic
+a3ed95caeb02: Already exists
+77c6c00e8b61: Already exists
+3aaade50789a: Already exists
+00cf8b9f3d2a: Already exists
+7ff999a2256f: Already exists
+d2ba336f2e44: Already exists
+dfda3e01f2b6: Already exists
+a3ed95caeb02: Already exists
+10c3bb32200b: Already exists
+8c98ebc11095: Already exists
+Digest: sha256:e1963a7190c3fa5ede49eea5e56f1bdb3e9773358d8a778ce1b47648aba39154
+Status: Image is up to date for quay.io/biocontainers/trimmomatic:0.39--1
+##### QC trimmed reads #####
+starting read 1
+Trying to pull repository docker.io/biocontainers/fastqc ... 
+v0.11.8dfsg-2-deb_cv1: Pulling from docker.io/biocontainers/fastqc
+Digest: sha256:9d41ec0bc4f413abe9e5290c91e3edfaa215fc47e8e11df18691cfa870df6d91
+Status: Image is up to date for docker.io/biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
+starting read 2
+##### Mapping reads #####
+Trying to pull repository docker.io/alexdobin/star ... 
+2.6.1d: Pulling from docker.io/alexdobin/star
+Digest: sha256:085e46e580a8216921c1dfbb188e3dbc23fe29cf0be75b62dce0a4391bba133e
+Status: Image is up to date for docker.io/alexdobin/star:2.6.1d
+Mar 06 00:47:32 ..... started STAR run
+Mar 06 00:47:32 ..... loading genome
+Mar 06 00:49:33 ..... started mapping
+Mar 06 00:49:35 ..... finished successfully
+##### QC BAM file #####
+tba
+##### Create count matrix #####
+Trying to pull repository docker.io/alexgilgal/featurecount ... 
+latest: Pulling from docker.io/alexgilgal/featurecount
+Digest: sha256:87cecbd20396682c53d46408aacb1cab6fc522a0060ff5268c2c0e58601f4aee
+Status: Image is up to date for docker.io/alexgilgal/featurecount:latest
+##### Cleaning up workspace #####

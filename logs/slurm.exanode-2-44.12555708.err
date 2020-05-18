@@ -1,0 +1,140 @@
+Started analysis of SCC_7319_B2_R1.fastq.gz
+Approx 5% complete for SCC_7319_B2_R1.fastq.gz
+Approx 10% complete for SCC_7319_B2_R1.fastq.gz
+Approx 15% complete for SCC_7319_B2_R1.fastq.gz
+Approx 20% complete for SCC_7319_B2_R1.fastq.gz
+Approx 25% complete for SCC_7319_B2_R1.fastq.gz
+Approx 30% complete for SCC_7319_B2_R1.fastq.gz
+Approx 35% complete for SCC_7319_B2_R1.fastq.gz
+Approx 40% complete for SCC_7319_B2_R1.fastq.gz
+Approx 45% complete for SCC_7319_B2_R1.fastq.gz
+Approx 50% complete for SCC_7319_B2_R1.fastq.gz
+Approx 55% complete for SCC_7319_B2_R1.fastq.gz
+Approx 60% complete for SCC_7319_B2_R1.fastq.gz
+Approx 65% complete for SCC_7319_B2_R1.fastq.gz
+Approx 70% complete for SCC_7319_B2_R1.fastq.gz
+Approx 75% complete for SCC_7319_B2_R1.fastq.gz
+Approx 80% complete for SCC_7319_B2_R1.fastq.gz
+Approx 85% complete for SCC_7319_B2_R1.fastq.gz
+Approx 90% complete for SCC_7319_B2_R1.fastq.gz
+Approx 95% complete for SCC_7319_B2_R1.fastq.gz
+Started analysis of SCC_7319_B2_R2.fastq.gz
+Approx 5% complete for SCC_7319_B2_R2.fastq.gz
+Approx 10% complete for SCC_7319_B2_R2.fastq.gz
+Approx 15% complete for SCC_7319_B2_R2.fastq.gz
+Approx 20% complete for SCC_7319_B2_R2.fastq.gz
+Approx 25% complete for SCC_7319_B2_R2.fastq.gz
+Approx 30% complete for SCC_7319_B2_R2.fastq.gz
+Approx 35% complete for SCC_7319_B2_R2.fastq.gz
+Approx 40% complete for SCC_7319_B2_R2.fastq.gz
+Approx 45% complete for SCC_7319_B2_R2.fastq.gz
+Approx 50% complete for SCC_7319_B2_R2.fastq.gz
+Approx 55% complete for SCC_7319_B2_R2.fastq.gz
+Approx 60% complete for SCC_7319_B2_R2.fastq.gz
+Approx 65% complete for SCC_7319_B2_R2.fastq.gz
+Approx 70% complete for SCC_7319_B2_R2.fastq.gz
+Approx 75% complete for SCC_7319_B2_R2.fastq.gz
+Approx 80% complete for SCC_7319_B2_R2.fastq.gz
+Approx 85% complete for SCC_7319_B2_R2.fastq.gz
+Approx 90% complete for SCC_7319_B2_R2.fastq.gz
+Approx 95% complete for SCC_7319_B2_R2.fastq.gz
+TrimmomaticPE: Started with arguments:
+ -threads 5 -phred33 -trimlog /tmp/output/03_trimmomatic/LOG_SCC_7319_B2.txt /tmp/raw-data/P2000996_02292020/FASTQ/SCC_7319_B2_R1.fastq.gz /tmp/raw-data/P2000996_02292020/FASTQ/SCC_7319_B2_R2.fastq.gz /tmp/output/03_trimmomatic/SCC_7319_B2_R1_trimmed.fastq.gz /tmp/output/03_trimmomatic/SCC_7319_B2_R1_trimmedUNPAIRED.fastq.gz /tmp/output/03_trimmomatic/SCC_7319_B2_R2_trimmed.fastq.gz /tmp/output/03_trimmomatic/SCC_7319_B2_R2_trimmedUNPAIRED.fastq.gz LEADING:30 TRAILING:30 SLIDINGWINDOW:4:30 MINLEN:90
+Input Read Pairs: 22556354 Both Surviving: 14739896 (65.35%) Forward Only Surviving: 3227120 (14.31%) Reverse Only Surviving: 1665375 (7.38%) Dropped: 2923963 (12.96%)
+TrimmomaticPE: Completed successfully
+Started analysis of SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 5% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 10% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 15% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 20% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 25% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 30% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 35% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 40% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 45% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 50% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 55% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 60% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 65% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 70% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 75% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 80% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 85% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 90% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Approx 95% complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Started analysis of SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 5% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 10% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 15% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 20% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 25% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 30% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 35% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 40% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 45% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 50% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 55% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 60% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 65% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 70% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 75% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 80% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 85% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 90% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Approx 95% complete for SCC_7319_B2_R2_trimmed.fastq.gz
+
+        ==========     _____ _    _ ____  _____  ______          _____  
+        =====         / ____| |  | |  _ \|  __ \|  ____|   /\   |  __ \ 
+          =====      | (___ | |  | | |_) | |__) | |__     /  \  | |  | |
+            ====      \___ \| |  | |  _ <|  _  /|  __|   / /\ \ | |  | |
+              ====    ____) | |__| | |_) | | \ \| |____ / ____ \| |__| |
+        ==========   |_____/ \____/|____/|_|  \_\______/_/    \_\_____/
+	  v1.5.2
+
+//========================== featureCounts setting ===========================\\
+||                                                                            ||
+||             Input files : 1 BAM file                                       ||
+||                           P /tmp/output/06_star/SCC_7319_B2_mapped-uns ... ||
+||                                                                            ||
+||             Output file : /tmp/output/07_ct_matrices/SCC_7319_B2_preli ... ||
+||                 Summary : /tmp/output/07_ct_matrices/SCC_7319_B2_preli ... ||
+||              Annotation : /tmp/raw-data/reference_files/TEMP-ref.gtf ( ... ||
+||      Assignment details : <input_file>.featureCounts                       ||
+||                      (Note that files are saved to the output directory)   ||
+||                                                                            ||
+||      Dir for temp files : /tmp/output/07_ct_matrices                       ||
+||                                                                            ||
+||                 Threads : 5                                                ||
+||                   Level : meta-feature level                               ||
+||              Paired-end : yes                                              ||
+||         Strand specific : stranded                                         ||
+||      Multimapping reads : not counted                                      ||
+|| Multi-overlapping reads : not counted                                      ||
+||   Min overlapping bases : 1                                                ||
+||                                                                            ||
+||          Chimeric reads : counted                                          ||
+||        Both ends mapped : not required                                     ||
+||                                                                            ||
+\\===================== http://subread.sourceforge.net/ ======================//
+
+//================================= Running ==================================\\
+||                                                                            ||
+|| Load annotation file /tmp/raw-data/reference_files/TEMP-ref.gtf ...        ||
+||    Features : 1371695                                                      ||
+||    Meta-features : 60623                                                   ||
+||    Chromosomes/contigs : 47                                                ||
+||                                                                            ||
+|| Process BAM file /tmp/output/06_star/SCC_7319_B2_mapped-unsortedAligne ... ||
+||    Paired-end reads are included.                                          ||
+||    Assign fragments (read pairs) to features...                            ||
+||    Total fragments : 35009912                                              ||
+||    Successfully assigned fragments : 369572 (1.1%)                         ||
+||    Running time : 2.77 minutes                                             ||
+||                                                                            ||
+||                         Read assignment finished.                          ||
+||                                                                            ||
+|| Summary of counting results can be found in file "/tmp/output/07_ct_matri  ||
+|| ces/SCC_7319_B2_prelim_COUNTmatrix.txt"                                    ||
+||                                                                            ||
+\\===================== http://subread.sourceforge.net/ ======================//
+

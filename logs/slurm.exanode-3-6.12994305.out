@@ -1,0 +1,24 @@
+##### QC raw reads #####
+starting read 1
+Trying to pull repository docker.io/biocontainers/fastqc ... 
+v0.11.8dfsg-2-deb_cv1: Pulling from docker.io/biocontainers/fastqc
+Digest: sha256:9d41ec0bc4f413abe9e5290c91e3edfaa215fc47e8e11df18691cfa870df6d91
+Status: Image is up to date for docker.io/biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
+Analysis complete for SCC_7319_B2_R1.fastq.gz
+starting read 2
+Analysis complete for SCC_7319_B2_R2.fastq.gz
+##### Trim low qual raw reads #####
+Trying to pull repository quay.io/biocontainers/trimmomatic ... 
+0.39--1: Pulling from quay.io/biocontainers/trimmomatic
+a3ed95caeb02: Already exists
+77c6c00e8b61: Already exists
+3aaade50789a: Already exists
+00cf8b9f3d2a: Already exists
+7ff999a2256f: Already exists
+d2ba336f2e44: Already exists
+dfda3e01f2b6: Already exists
+a3ed95caeb02: Already exists
+10c3bb32200b: Already exists
+8c98ebc11095: Already exists
+Digest: sha256:e1963a7190c3fa5ede49eea5e56f1bdb3e9773358d8a778ce1b47648aba39154
+Status: Image is up to date for quay.io/biocontainers/trimmomatic:0.39--1
