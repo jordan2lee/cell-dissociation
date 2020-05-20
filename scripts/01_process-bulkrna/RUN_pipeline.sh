@@ -2,7 +2,7 @@
 
 #SBATCH --nodes=1
 #SBATCH --job-name=docker-quant-kallisto
-#SBATCH --time=0-05:30:00
+#SBATCH --time=0-03:00:00
 #SBATCH --partition=exacloud
 #SBATCH --ntasks=6
 #SBATCH --cpus-per-task=1
@@ -147,5 +147,5 @@ echo 'tba'
 # copy files from scratch and clean up scratch
 # echo '##### Cleaning up workspace #####'
 cp -r /mnt/scratch/5420/${ses}/output/* /home/groups/EllrottLab/cell-dissociation/data/01_process-bulkrna/
-# rm -rf /mnt/scratch/5420/${ses}
-# rm -rf /mnt/scratch/5420 #run only if not currently running other jobs
+rm -rf /mnt/scratch/5420/${ses}
+rm -rf /mnt/scratch/5420 #run only if not currently running other jobs
