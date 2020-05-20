@@ -1,0 +1,506 @@
+---
+title: "dge"
+author: "Jordan A. Lee"
+date:  "2/28/2020 - `r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+
+This is a html version of dge.R as of end of day 2/28/20
+
+# Background
+
+DESeq2 doesn’t actually use normalized counts, rather it uses the raw counts and models the normalization inside the Generalized Linear Model (GLM). These normalized counts will be useful for downstream visualization of results, but cannot be used as input to DESeq2 or any other tools that peform differential expression analysis which use the negative binomial model.
+
+`DESeq()` details:
+
++ Function runs: 1) est of size factors, est of dispersions, negative binomial generalized linear model (GLM) fitting and wald stats
+
+`results()` details (these are outlined in the object printout below too): 
+
++ Adjusted pvals = BH corrected
++ User specified alpha val to use for adjusted pval thresholding for FDR analysis
++ Wald test to assess model fit (compared to likelihood ratio test). Wald test fits full model --> conducts tests for each gene to assess distance from 0 *- using the full model coefficent(s) and their standard error(s)* --> genes with coefficients significantly different than 0 will show this in their log2 fold change (and coefficient is reported as the log2fold change). - several studies have found that **Wald-log test** is better for RNA-seq data than others.
+
+
+In RNA-seq data, larger variances grow with larger counts
+
+# Analysis
+
+```{r, cache=TRUE}
+# Disclaimer: hardcoded names of patients in flat_matrix
+# hard coded condition vector
+####################
+file_bulk1 <-'/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/01_process-bulkrna/07_ct_matrices/SCC_7319_B2_COUNTmatrix.txt'
+file_bulk2 <-'/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/01_process-bulkrna/07_ct_matrices/SCC_7320_B2_COUNTmatrix.txt'
+file_bulkGT1 <-'/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/01_process-bulkrna/07_ct_matrices/SCC_7319_GT_COUNTmatrix.txt'
+file_bulkGT2 <-'/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/01_process-bulkrna/07_ct_matrices/SCC_7320_GT_COUNTmatrix.txt'
+countsMECH_1_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Mech/'
+countsENZ_1_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Enz/'
+countsMECH_2_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7320_Mech/'
+countsENZ_2_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7320_Enz/'
+THRES = 0.1
+output_sortedGenes = '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/03_compare-bulk_scrna/scrna2bulk/geneOrdered_results.csv'
+
+bulk_base_names <- c('bulk_7319', 'bulk_7320')
+bulkgt_base_names <- c('bulkGT_7319', 'bulkGT_7320')
+scmech_base_names <- c('sc_mech_7319', 'sc_mech_7320')
+scenz_base_names <- c('sc_enz_7319', 'sc_enz_7320')
+####################
+```
+
+```{r, message=FALSE}
+library(Seurat)
+library(dplyr)
+library(Matrix)
+library(gdata)
+library(DESeq2)
+library(ggplot2)
+library(pheatmap)
+library(vsn)
+library(RColorBrewer)
+library(readr)
+library(tibble)
+library(tidyverse)
+library(ggrepel)
+```
+
+# Create combined matrices of mech and enz 
+
+Read in files and create pseudo-bulk (take the sum of raw gene counts across all cell barcodes and report that as the pseudo-bulk gene count). Preprocessing steps shown in `.Rmd`
+
+```{r, cache=TRUE, echo=FALSE}
+###############################
+# Create combined count matrices
+###############################
+# Read in files
+counts_mech1 <- Read10X(data.dir = countsMECH_1_matrix_dir, gene.column = 1)
+counts_enz1 <- Read10X(data.dir = countsENZ_1_matrix_dir, gene.column = 1)
+counts_mech2 <- Read10X(data.dir = countsMECH_2_matrix_dir,gene.column = 1)
+counts_enz2 <- Read10X(data.dir = countsENZ_2_matrix_dir, gene.column = 1)
+# convert to dense matrix
+counts_mech1 <- as.matrix(counts_mech1) 
+counts_enz1 <- as.matrix(counts_enz1) 
+counts_mech2 <- as.matrix(counts_mech2) 
+counts_enz2 <- as.matrix(counts_enz2) 
+######## Subset for testing ###########
+# counts_mech1 <- counts_mech1[256:260, 1:3]
+# counts_mech1 <- counts_mech1[493:498, 1:3]
+# counts_mech1
+# counts_enz1 <- counts_enz1[493:498, 1:3]
+# counts_enz1
+# counts_mech2 <- counts_mech2[493:498, 1:3]
+# counts_mech2
+# counts_enz2 <- counts_enz2[493:498, 1:3]
+# counts_enz2
+#######################################
+# Flaten counts (sum all cells for a gene) + combine matrices
+mech1 <- as.data.frame(rowSums(counts_mech1))
+enz1 <- as.data.frame(rowSums(counts_enz1)) 
+mech2 <- as.data.frame(rowSums(counts_mech2)) 
+enz2 <- as.data.frame(rowSums(counts_enz2)) 
+
+
+########################
+# Read in bulk samples and create a unified count matrix
+########################
+# Bulk
+b1 <- read.table(file=file_bulk1, sep='\t', header=TRUE)
+b2 <- read.table(file=file_bulk2, sep='\t', header=TRUE)
+#combined bulk matrix
+flat_matrix_BULK <- merge(b1, b2, by ='Geneid', all=TRUE ) #merge by rowname
+colnames(flat_matrix_BULK) <- c('ensID',bulk_base_names)
+
+# GT
+gt1 <- read.table(file=file_bulkGT1, sep='\t', header=TRUE)
+gt2 <- read.table(file=file_bulkGT2, sep='\t', header=TRUE)
+#combined bulk matrix
+flat_matrix_BULK_GT <- merge(gt1, gt2, by ='Geneid', all=TRUE ) #merge by rowname
+colnames(flat_matrix_BULK_GT) <- c('ensID',bulkgt_base_names)
+```
+
+
+
+# Part 1. Establishing time and temp impact (bulk RNA-seq vs ground truth bulk RNA-seq)
+
+```
+############################
+# Create count matrices for DGE
+############################
+# Combine matrices
+flat_matrix_ctrlBULK <- merge(flat_matrix_BULK, flat_matrix_BULK_GT, by='ensID', all=TRUE)
+# Replace NA --> 0 
+flat_matrix_ctrlBULK[is.na(flat_matrix_ctrlBULK)]=0
+# Now that have combined properly fix so that rowname are genes
+flat_matrix_ctrlBULK <- column_to_rownames(flat_matrix_ctrlBULK, var='ensID')
+
+############################
+# Create meta data table of which samples are which treatment - needed for Deseq2
+#############################
+# Grab samples in order
+samples <- colnames(flat_matrix_ctrlBULK)
+# Create condition vector and type
+condition <- c('bulk','bulk', 'gt', 'gt')
+meta_data <- as.data.frame(condition)
+rownames(meta_data) <- samples
+
+# # Remove gene rows that are lowly expr in samples - filter low counts <10 ct
+# flat_matrix_ctrlBULK <- flat_matrix_ctrlBULK[rowSums(flat_matrix_ctrlBULK > 10) != 0, ]
+
+#####################
+# DGE
+#####################
+dds_obj_ctrlBULK <- DESeqDataSetFromMatrix(countData = flat_matrix_ctrlBULK, colData = meta_data, design = ~ condition)
+# DGE based on neg binom distr
+dds_ctrlBULK <- DESeq(dds_obj_ctrlBULK, test ='Wald')
+res_ctrlBULK <- results(dds_ctrlBULK, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
+( mcols(res_ctrlBULK)$description ) # info
+
+###############
+# Examine results
+###############
+#MA plot
+print('MA plot of non-transformed counts')
+plotMA(res_ctrlBULK, ylim=c(-5,5), alpha = THRES)
+```
+
+We can see that there are no signficantlly DE genes (would be denoted by red point).
+
+
+
+
+
+# Part 2. Comparing scRNA-mech pseudo, scRNA-enz pseudo, and bulk - normalized
+
+DGE analysis based on negative binomial distribution, mean and variance linked by local regression, can be implemented to estimate scale factors too. **Normalization method = DESeq2 median of ratios** which is the counts divided by sample size factors determined by meidan ratio of gene conts relative to geometric mean per gene - which accounts for seq depth and RNA composition. But not **gene length**
+
+```{r, message=FALSE, echo=FALSE}
+############################
+# Create count matrices for DGE
+############################
+# Combine mech samples
+flat_matrix_mech <- merge(mech1, mech2, by =0, all=TRUE) #merge by rowname
+colnames(flat_matrix_mech) <- c("ensID",scmech_base_names)
+# Combine enz samples
+flat_matrix_enz <- merge(enz1, enz2, by =0, all=TRUE) #merge by rowname
+colnames(flat_matrix_enz) <- c("ensID",scenz_base_names)
+# Combine mech and enz samples
+flat_matrix_ALL <- merge(flat_matrix_mech, flat_matrix_enz, by ='ensID', all=TRUE) #merge by rowname
+# Combine mech, enz, bulk
+flat_matrix_ALL <- merge(flat_matrix_BULK, flat_matrix_ALL, by='ensID', all=TRUE)
+# Replace NA --> 0 
+flat_matrix_ALL[is.na(flat_matrix_ALL)]=0
+# Now that have combined properly fix so that rowname are genes
+flat_matrix_ALL <- column_to_rownames(flat_matrix_ALL, var='ensID')
+
+
+############################
+# Create meta data table of which samples are which treatment - needed for Deseq2
+#############################
+# Grab samples in order
+samples <- colnames(flat_matrix_ALL)
+# Create condition vector and type
+condition <- c('bulk','bulk', 'sc', 'sc', 'sc', 'sc') 
+meta_data <- as.data.frame(cbind(condition))
+rownames(meta_data) <- samples
+meta_data
+#### consider removing
+# # Remove gene rows that are lowly expr in samples - filter low counts <10 ct
+# flat_matrix_ctrlBULK <- flat_matrix_ctrlBULK[rowSums(flat_matrix_ctrlBULK > 10) != 0, ]
+```
+
+```{r, message=FALSE, echo=FALSE}
+#####################
+# DGE
+#####################
+
+dds_obj_ALL <- DESeqDataSetFromMatrix(countData = flat_matrix_ALL, colData = meta_data, design = ~ condition)
+
+# DGE based on neg binom distr
+dds_ALL <- DESeq(dds_obj_ALL, test ='Wald')
+res_ALL <- results(dds_ALL, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
+( mcols(res_ALL)$description ) # info
+
+#MA plot
+print('MA plot of normalized counts')
+plotMA(res_ALL, ylim=c(-5,5), alpha = THRES)
+
+# "Table" of top diff expr
+print('Most differ expr genes of normalized counts')
+topgenes <- rownames(res_ALL)[res_ALL$padj <= sort(res_ALL$padj)[25] &!is.na(res_ALL$padj)]
+print(topgenes)
+```
+
+Now let's look at the log10(counts) of the data
+
+```{r, echo=FALSE}
+##############
+# Visualization
+##############
+# 1A. Extract normalized count matrix used by DESeq
+    # estimating size factors is auto in DESEQ() but 
+    # we have to do this manually to extract the normalized count matrix it produces
+    # Normalization method= deseq median or ratios method
+dds <- DESeqDataSetFromMatrix(countData = flat_matrix_ALL, colData = meta_data, design = ~condition)
+dds<- estimateSizeFactors(dds)
+('size factors applied for norm were:')
+(sizeFactors(dds)) #good for record keeping
+normalized_counts_tibble <- counts(dds, normalized=TRUE)
+#write.table(normalized_counts_tibble,file="/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/03_compare-bulk_scrna/scrna2bulk/normalized_counts--ALL.txt", sep="\t", quote=F, col.names=NA)
+
+# 1B. get subset of top genes to look at, extract this info from DESeq then subset normalized count matrix
+# Reformat
+m_tibble <- meta_data %>% 
+  rownames_to_column(var="samplename") %>% 
+  as_tibble()
+normalized_counts <- normalized_counts_tibble %>% 
+  data.frame() %>%
+  rownames_to_column(var="gene") %>% 
+  as_tibble()
+# Extract
+top25_norm <- normalized_counts %>%
+        filter(gene %in% topgenes)
+
+
+# 2. Plot signficant DE genes
+# Gathering the columns to have normalized counts to a single column (aka create a col sample name)
+gathered <- top25_norm %>%
+  gather(colnames(top25_norm)[2:7], key = "samplename", value = "normalized_counts") #2:7 bc headers are gene,then all 6 samples
+# melt so that plot will be colored by condition
+gathered <- inner_join(m_tibble, gathered,by="samplename")
+ggplot(gathered) +
+        geom_point(aes(x = gene, y = normalized_counts, color = condition)) +
+        xlab("Genes (Ranked)") +
+        ylab("Normalized Counts") +
+        ggtitle("Top 25 Significant DE Genes") +
+        theme_bw() +
+	theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+	theme(plot.title = element_text(hjust = 0.5))
+
+# 3. Heatmap
+#plot only signficant genes and display their normalized expression
+print('Heatmap of all normalized counts')
+# Reformat 
+annotation <- m_tibble %>%data.frame(row.names = "samplename")
+mat<- top25_norm %>% column_to_rownames(var = "gene")
+pheatmap(mat, 
+         cluster_rows = T,
+         cluster_cols = T,
+         show_rownames = T,
+         border_color = NA,
+         annotation = annotation, 
+         fontsize = 5)
+```
+
+
+# Part 3. Comparing scRNA-mech pseudo vs bulk - normalized
+
+```{r, message=FALSE, echo=FALSE}
+############################
+# Create count matrices for DGE
+############################
+flat_matrix_mech <- merge(mech1, mech2, by =0, all=TRUE) #merge by rowname
+colnames(flat_matrix_mech) <- c("ensID",scmech_base_names)
+# Add bulk samples in
+flat_matrix_mech <- merge(flat_matrix_BULK, flat_matrix_mech, by='ensID', all=TRUE)
+# Replace NA --> 0 
+flat_matrix_mech[is.na(flat_matrix_mech)]=0
+# Now that have combined properly fix so that rowname are genes
+flat_matrix_mech <- column_to_rownames(flat_matrix_mech, var='ensID')
+
+############################
+# Create meta data table of which samples are which treatment - needed for Deseq2
+#############################
+# Grab samples in order
+samples <- colnames(flat_matrix_mech)
+# Create condition vector and type
+condition <- c('bulk','bulk', 'mech', 'mech')
+meta_data <- as.data.frame(condition)
+rownames(meta_data) <- samples
+
+# # Remove gene rows that are lowly expr in samples - filter low counts <10 ct
+# flat_matrix_mech <- flat_matrix_mech[rowSums(flat_matrix_mech > 10) != 0, ]
+
+#####################
+# DGE
+#####################
+dds_obj_mech <- DESeqDataSetFromMatrix(countData = flat_matrix_mech, colData = meta_data, design = ~ condition)
+# DGE based on neg binom distr
+dds_mech <- DESeq(dds_obj_mech, test ='Wald')
+res_mech <- results(dds_mech, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
+( mcols(res_mech)$description ) # info
+
+#MA plot
+print('MA plot of normalized counts')
+plotMA(res_mech, ylim=c(-5,5), alpha = THRES)
+
+# "Table" of top diff expr
+print('Most differ expr genes of normalized counts')
+topgenes <- rownames(res_mech)[res_mech$padj <= sort(res_mech$padj)[25] &!is.na(res_mech$padj)]
+print(topgenes)
+```
+
+Now let's look at the log10(counts) of the data
+
+```{r , echo=FALSE}
+##############
+# Visualization
+##############
+# 1A. Extract normalized count matrix used by DESeq
+    # estimating size factors is auto in DESEQ() but 
+    # we have to do this manually to extract the normalized count matrix it produces
+    # Normalization method= deseq median or ratios method
+dds <- DESeqDataSetFromMatrix(countData = flat_matrix_mech, colData = meta_data, design = ~ condition)
+dds<- estimateSizeFactors(dds)
+('size factors applied for norm were:')
+(sizeFactors(dds)) #good for record keeping
+normalized_counts_tibble <- counts(dds, normalized=TRUE)
+#write.table(normalized_counts_tibble,file="/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/03_compare-bulk_scrna/scrna2bulk/normalized_counts--ALL.txt", sep="\t", quote=F, col.names=NA)
+# 1B. get subset of top genes to look at, extract this info from DESeq then subset normalized count matrix
+# Reformat
+m_tibble <- meta_data %>% 
+  rownames_to_column(var="samplename") %>% 
+  as_tibble()
+normalized_counts <- normalized_counts_tibble %>% 
+  data.frame() %>%
+  rownames_to_column(var="gene") %>% 
+  as_tibble()
+# Extract
+top25_norm <- normalized_counts %>%
+        filter(gene %in% topgenes)
+
+# 2. Plot signficant DE genes
+# Gathering the columns to have normalized counts to a single column (aka create a col sample name)
+gathered <- top25_norm %>%
+  gather(colnames(top25_norm)[2:5], key = "samplename", value = "normalized_counts") #2:7 bc headers are gene,then all 6 samples
+# melt so that plot will be colored by condition
+gathered <- inner_join(m_tibble, gathered,by="samplename")
+ggplot(gathered) +
+        geom_point(aes(x = gene, y = normalized_counts, color = condition)) +
+        scale_y_log10() +
+        xlab("Genes (Ranked)") +
+        ylab("log10 Normalized Counts") +
+        ggtitle("Top 25 Significant DE Genes") +
+        theme_bw() +
+	theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+	theme(plot.title = element_text(hjust = 0.5))
+# # 3. Heatmap - SKIPPING FOR NOW BC COVARIANCE=0 IN SOME CASES - SEE USING cor(log(mat))
+# #plot only signficant genes and display their normalized expression
+# print('Heatmap of all normalized counts')
+# # Reformat 
+# annotation <- m_tibble %>%data.frame(row.names = "samplename")
+# mat<- top25_norm %>% column_to_rownames(var = "gene")
+# pheatmap(log10(mat), 
+#          cluster_rows = T,
+#          cluster_cols = T,
+#          show_rownames = T,
+#          border_color = NA,
+#          annotation = annotation, 
+#          fontsize = 5)
+```
+
+
+# Part 4. Comparing scRNA-enz pseudo vs bulk
+
+```{r, message=FALSE, echo=FALSE}
+############################
+# Create count matrices for DGE
+############################
+flat_matrix_enz <- merge(enz1, enz2, by =0, all=TRUE) #merge by rowname
+colnames(flat_matrix_enz) <- c("ensID",scenz_base_names)
+# Add bulk samples in
+flat_matrix_enz <- merge(flat_matrix_BULK, flat_matrix_enz, by='ensID', all=TRUE)
+# Replace NA --> 0 
+flat_matrix_enz[is.na(flat_matrix_enz)]=0
+# Now that have combined properly fix so that rowname are genes
+flat_matrix_enz <- column_to_rownames(flat_matrix_enz, var='ensID')
+
+############################
+# Create meta data table of which samples are which treatment - needed for Deseq2
+#############################
+# Grab samples in order
+samples <- colnames(flat_matrix_enz)
+# Create condition vector and type
+condition <- c('bulk','bulk', 'enz', 'enz')
+meta_data <- as.data.frame(condition)
+rownames(meta_data) <- samples
+
+# # Remove gene rows that are lowly expr in samples - filter low counts <10 ct
+# flat_matrix_enz <- flat_matrix_enz[rowSums(flat_matrix_enz > 10) != 0, ]
+
+#####################
+# DGE
+#####################
+dds_obj_enz <- DESeqDataSetFromMatrix(countData = flat_matrix_enz, colData = meta_data, design = ~ condition)
+# DGE based on neg binom distr
+dds_enz <- DESeq(dds_obj_enz, test ='Wald')
+res_enz <- results(dds_enz, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
+( mcols(res_enz)$description ) # info
+
+#MA plot
+print('MA plot of normalized counts')
+plotMA(res_enz, ylim=c(-5,5), alpha = THRES)
+
+# "Table" of top diff expr
+print('Most differ expr genes of normalized counts')
+topgenes <- rownames(res_enz)[res_enz$padj <= sort(res_enz$padj)[25] &!is.na(res_enz$padj)]
+print(topgenes)
+```
+
+Now let's look at the log10(counts) of the data
+
+```{r, echo=FALSE}
+##############
+# Visualization
+##############
+# 1A. Extract normalized count matrix used by DESeq
+    # estimating size factors is auto in DESEQ() but 
+    # we have to do this manually to extract the normalized count matrix it produces
+    # Normalization method= deseq median or ratios method
+dds <- DESeqDataSetFromMatrix(countData = flat_matrix_enz, colData = meta_data, design = ~ condition)
+dds<- estimateSizeFactors(dds)
+('size factors applied for norm were:')
+(sizeFactors(dds)) #good for record keeping
+normalized_counts_tibble <- counts(dds, normalized=TRUE)
+#write.table(normalized_counts_tibble,file="/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/03_compare-bulk_scrna/scrna2bulk/normalized_counts--ALL.txt", sep="\t", quote=F, col.names=NA)
+# 1B. get subset of top genes to look at, extract this info from DESeq then subset normalized count matrix
+# Reformat
+m_tibble <- meta_data %>% 
+  rownames_to_column(var="samplename") %>% 
+  as_tibble()
+normalized_counts <- normalized_counts_tibble %>% 
+  data.frame() %>%
+  rownames_to_column(var="gene") %>% 
+  as_tibble()
+# Extract
+top25_norm <- normalized_counts %>%
+        filter(gene %in% topgenes)
+
+# 2. Plot signficant DE genes
+# Gathering the columns to have normalized counts to a single column (aka create a col sample name)
+gathered <- top25_norm %>%
+  gather(colnames(top25_norm)[2:5], key = "samplename", value = "normalized_counts") #2:7 bc headers are gene,then all 6 samples
+# melt so that plot will be colored by condition
+gathered <- inner_join(m_tibble, gathered,by="samplename")
+ggplot(gathered) +
+        geom_point(aes(x = gene, y = normalized_counts, color = condition)) +
+        scale_y_log10() +
+        xlab("Genes (Ranked)") +
+        ylab("log10 Normalized Counts") +
+        ggtitle("Top 25 Significant DE Genes") +
+        theme_bw() +
+	theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+	theme(plot.title = element_text(hjust = 0.5))
+# # 3. Heatmap - SKIPPING FOR NOW BC COVARIANCE=0 IN SOME CASES - SEE USING cor(log(mat))
+# #plot only signficant genes and display their normalized expression
+# print('Heatmap of all normalized counts')
+# # Reformat 
+# annotation <- m_tibble %>%data.frame(row.names = "samplename")
+# mat<- top25_norm %>% column_to_rownames(var = "gene")
+# pheatmap(log10(mat), 
+#          cluster_rows = T,
+#          cluster_cols = T,
+#          show_rownames = T,
+#          border_color = NA,
+#          annotation = annotation, 
+#          fontsize = 5)
+```
