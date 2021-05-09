@@ -2,7 +2,7 @@
 
 #SBATCH --nodes=1
 #SBATCH --job-name=docker-quant-kallisto
-#SBATCH --time=0-06:00:00
+#SBATCH --time=0-03:45:00
 #SBATCH --partition=exacloud
 #SBATCH --ntasks=6
 #SBATCH --cpus-per-task=1
@@ -19,6 +19,7 @@ read2=${4}
 basename=${5}
 threads=${6}
 
+## Example call
 # dir=/home/groups/EllrottLab/cell-dissociation
 # ses=patient_7320_B2
 # read1=P2000996_02292020/FASTQ/SCC_7320_B2_R1.fastq.gz
@@ -37,9 +38,9 @@ threads=${6}
 ################
 # Set up workspace
 ################
-echo $(date)
 # make output structure
 echo '##### Creating output structure #####'
+echo $(date)
 mkdir /mnt/scratch/5420
 mkdir /mnt/scratch/5420/${ses}
 mkdir /mnt/scratch/5420/${ses}/output
@@ -152,9 +153,9 @@ echo 'tba'
 # Clean up workspace
 ###############
 # copy files from scratch and clean up scratch
-# echo '##### Cleaning up workspace #####'
+echo '##### Cleaning up workspace #####'
 cp -r /mnt/scratch/5420/${ses}/output/* /home/groups/EllrottLab/cell-dissociation/data/01_process-bulkrna/
-# rm -rf /mnt/scratch/5420/${ses}
-# rm -rf /mnt/scratch/5420 #run only if not currently running other jobs
+rm -rf /mnt/scratch/5420/${ses}
+rm -rf /mnt/scratch/5420 #run only if not currently running other jobs
 echo '##### complete #####'
 echo $(date)
