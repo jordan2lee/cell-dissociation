@@ -27,12 +27,7 @@ data/02_process-scrna/7320_Enz/
 data/02_process-scrna/7320_Mech/
 
 scripts/03_compare-bulk_scrna/scrna2bulk/scVSbulk_cache/
-scripts/03_compare-bulk_scrna/scrna2bulk/scVSbulk_files/
 scripts/03_compare-bulk_scrna/scrna2bulk/NEW-graygroup_cache/
-scripts/03_compare-bulk_scrna/scrna2bulk/NEW-graygroup_files/
 scripts/03_compare-bulk_scrna/scrna2bulk/dge1_cache/
-scripts/03_compare-bulk_scrna/scrna2bulk/dge1_files/
 scripts/03_compare-bulk_scrna/scrna2bulk/dge2_cache/
-scripts/03_compare-bulk_scrna/scrna2bulk/dge2_files/
 scripts/03_compare-bulk_scrna/scrna2bulk/wcs-SD_cache/
-scripts/03_compare-bulk_scrna/scrna2bulk/wcs-SD_files/
