@@ -10,6 +10,8 @@ notes_jl.md
 scripts/.DS_Store
 scripts/01_process-bulkrna/.DS_Store
 scripts/01_process-bulkrna/previous/
+scripts/03_compare-bulk_scrna/scrna2bulk/*_cache
+scripts/03_compare-bulk_scrna/scrna2bulk/*_files
 
 raw-data/*
 !raw-data/README.md

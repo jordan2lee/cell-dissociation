@@ -2,7 +2,7 @@
 
 #SBATCH --nodes=1
 #SBATCH --job-name=docker-quant-kallisto
-#SBATCH --time=0-03:00:00
+#SBATCH --time=0-03:45:00
 #SBATCH --partition=exacloud
 #SBATCH --ntasks=6
 #SBATCH --cpus-per-task=1
@@ -19,6 +19,7 @@ read2=${4}
 basename=${5}
 threads=${6}
 
+## Example call
 # dir=/home/groups/EllrottLab/cell-dissociation
 # ses=patient_7320_B2
 # read1=P2000996_02292020/FASTQ/SCC_7320_B2_R1.fastq.gz
@@ -39,6 +40,7 @@ threads=${6}
 ################
 # make output structure
 echo '##### Creating output structure #####'
+echo $(date)
 mkdir /mnt/scratch/5420
 mkdir /mnt/scratch/5420/${ses}
 mkdir /mnt/scratch/5420/${ses}/output
@@ -50,12 +52,14 @@ mkdir /mnt/scratch/5420/${ses}/output/05_kallisto/${basename}
 
 # move files to scratch, computing cluster specific
 echo '##### Transfering input files to scratch #####'
+echo $(date)
 cp -r ${dir}/raw-data /mnt/scratch/5420/${ses} #move raw seq reads dir
 
 #############
 # QC raw reads - fastqc
 #########################
 echo '##### QC raw reads #####'
+echo $(date)
 # Read 1
 echo 'starting read 1'
 sudo /opt/acc/sbin/exadocker pull biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
@@ -78,6 +82,7 @@ sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
 # Trim low qual reads - trimmomatic
 ####################################
 echo '##### Trim low qual raw reads #####'
+echo $(date)
 sudo /opt/acc/sbin/exadocker pull quay.io/biocontainers/trimmomatic:0.39--1
 sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
     quay.io/biocontainers/trimmomatic:0.39--1 \
@@ -98,6 +103,7 @@ sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
 # QC trimmed reads - fastqc
 #########################
 echo '##### QC trimmed reads #####'
+echo $(date)
 # Read 1
 echo 'starting read 1'
 sudo /opt/acc/sbin/exadocker pull biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
@@ -120,23 +126,25 @@ sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
 #########################
 # Quant
 ##########################
-echo '##### Quantify abundances of the transcripts - Kallisto #####'
+echo '##### Quantify abundances of the transcripts - Kallisto #####' # TODO check this is same as kallisto_index.idx"
+echo $(date)
 # see https://hub.docker.com/r/zlskidmore/kallisto, version==0.46.0
 sudo /opt/acc/sbin/exadocker pull zlskidmore/kallisto
 sudo /opt/acc/sbin/exadocker run --rm -v /mnt/scratch/5420/${ses}:/tmp \
     zlskidmore/kallisto \
     kallisto quant \
     -i /tmp/raw-data/kallisto_index/transcripts_kallisto.idx \
-	--rf-stranded \
-	-t ${threads} \
-	-o /tmp/output/05_kallisto/${basename} \
-	/tmp/output/03_trimmomatic/${basename}_R1_trimmed.fastq.gz /tmp/output/03_trimmomatic/${basename}_R2_trimmed.fastq.gz
+    --rf-stranded \
+    -t ${threads} \
+    -o /tmp/output/05_kallisto/${basename} \
+    /tmp/output/03_trimmomatic/${basename}_R1_trimmed.fastq.gz /tmp/output/03_trimmomatic/${basename}_R2_trimmed.fastq.gz
 
 
 ###############
 # BAM QC
 ###############
 echo '##### QC BAM file #####'
+echo $(date)
 # TBA
 echo 'tba'
 
@@ -145,7 +153,9 @@ echo 'tba'
 # Clean up workspace
 ###############
 # copy files from scratch and clean up scratch
-# echo '##### Cleaning up workspace #####'
+echo '##### Cleaning up workspace #####'
 cp -r /mnt/scratch/5420/${ses}/output/* /home/groups/EllrottLab/cell-dissociation/data/01_process-bulkrna/
 rm -rf /mnt/scratch/5420/${ses}
 rm -rf /mnt/scratch/5420 #run only if not currently running other jobs
+echo '##### complete #####'
+echo $(date)

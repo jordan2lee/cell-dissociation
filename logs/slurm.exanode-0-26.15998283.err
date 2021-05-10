@@ -84,58 +84,17 @@ Approx 85% complete for SCC_7320_N_R2_trimmed.fastq.gz
 Approx 90% complete for SCC_7320_N_R2_trimmed.fastq.gz
 Approx 95% complete for SCC_7320_N_R2_trimmed.fastq.gz
 
-        ==========     _____ _    _ ____  _____  ______          _____  
-        =====         / ____| |  | |  _ \|  __ \|  ____|   /\   |  __ \ 
-          =====      | (___ | |  | | |_) | |__) | |__     /  \  | |  | |
-            ====      \___ \| |  | |  _ <|  _  /|  __|   / /\ \ | |  | |
-              ====    ____) | |__| | |_) | | \ \| |____ / ____ \| |__| |
-        ==========   |_____/ \____/|____/|_|  \_\______/_/    \_\_____/
-	  v1.5.2
-
-//========================== featureCounts setting ===========================\\
-||                                                                            ||
-||             Input files : 1 BAM file                                       ||
-||                           P /tmp/output/06_star/SCC_7320_N_mapped-unso ... ||
-||                                                                            ||
-||             Output file : /tmp/output/07_ct_matrices/SCC_7320_N_prelim ... ||
-||                 Summary : /tmp/output/07_ct_matrices/SCC_7320_N_prelim ... ||
-||              Annotation : /tmp/raw-data/reference_files/TEMP-ref.gtf ( ... ||
-||      Assignment details : <input_file>.featureCounts                       ||
-||                      (Note that files are saved to the output directory)   ||
-||                                                                            ||
-||      Dir for temp files : /tmp/output/07_ct_matrices                       ||
-||                                                                            ||
-||                 Threads : 5                                                ||
-||                   Level : meta-feature level                               ||
-||              Paired-end : yes                                              ||
-||         Strand specific : stranded                                         ||
-||      Multimapping reads : not counted                                      ||
-|| Multi-overlapping reads : not counted                                      ||
-||   Min overlapping bases : 1                                                ||
-||                                                                            ||
-||          Chimeric reads : counted                                          ||
-||        Both ends mapped : not required                                     ||
-||                                                                            ||
-\\===================== http://subread.sourceforge.net/ ======================//
-
-//================================= Running ==================================\\
-||                                                                            ||
-|| Load annotation file /tmp/raw-data/reference_files/TEMP-ref.gtf ...        ||
-||    Features : 1371695                                                      ||
-||    Meta-features : 60623                                                   ||
-||    Chromosomes/contigs : 47                                                ||
-||                                                                            ||
-|| Process BAM file /tmp/output/06_star/SCC_7320_N_mapped-unsortedAligned ... ||
-||    Paired-end reads are included.                                          ||
-||    Assign fragments (read pairs) to features...                            ||
-||    Total fragments : 36325860                                              ||
-||    Successfully assigned fragments : 543245 (1.5%)                         ||
-||    Running time : 2.72 minutes                                             ||
-||                                                                            ||
-||                         Read assignment finished.                          ||
-||                                                                            ||
-|| Summary of counting results can be found in file "/tmp/output/07_ct_matri  ||
-|| ces/SCC_7320_N_prelim_COUNTmatrix.txt"                                     ||
-||                                                                            ||
-\\===================== http://subread.sourceforge.net/ ======================//
+[quant] fragment length distribution will be estimated from the data
+[index] k-mer length: 31
+[index] number of targets: 228,048
+[index] number of k-mers: 140,910,530
+[index] number of equivalence classes: 969,562
+[quant] running in paired-end mode
+[quant] will process pair 1: /tmp/output/03_trimmomatic/SCC_7320_N_R1_trimmed.fastq.gz
+                             /tmp/output/03_trimmomatic/SCC_7320_N_R2_trimmed.fastq.gz
+[quant] finding pseudoalignments for the reads ... done
+[quant] processed 15,508,750 reads, 7,885,142 reads pseudoaligned
+[quant] estimated average fragment length: 170.231
+[   em] quantifying the abundances ... done
+[   em] the Expectation-Maximization algorithm ran for 1,031 rounds
 

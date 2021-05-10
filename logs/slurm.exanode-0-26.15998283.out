@@ -1,4 +1,9 @@
+Sat May 8 17:25:54 PDT 2021
+##### Creating output structure #####
+##### Transfering input files to scratch #####
+Sat May 8 17:25:54 PDT 2021
 ##### QC raw reads #####
+Sat May 8 17:55:54 PDT 2021
 starting read 1
 Trying to pull repository docker.io/biocontainers/fastqc ... 
 v0.11.8dfsg-2-deb_cv1: Pulling from docker.io/biocontainers/fastqc
@@ -9,18 +14,20 @@ e8e87313e9cb: Pulling fs layer
 732b6ad56c57: Pulling fs layer
 f464fdba1cc8: Pulling fs layer
 704733959036: Pulling fs layer
-732b6ad56c57: Waiting
-704733959036: Waiting
-f464fdba1cc8: Waiting
 1badce2e48be: Waiting
+732b6ad56c57: Waiting
+f464fdba1cc8: Waiting
+704733959036: Waiting
 e8e87313e9cb: Verifying Checksum
 e8e87313e9cb: Download complete
+94d6a239eb0e: Verifying Checksum
 94d6a239eb0e: Download complete
 732b6ad56c57: Verifying Checksum
 732b6ad56c57: Download complete
 1badce2e48be: Verifying Checksum
 1badce2e48be: Download complete
 478cd0aa93c0: Download complete
+f464fdba1cc8: Verifying Checksum
 f464fdba1cc8: Download complete
 704733959036: Verifying Checksum
 704733959036: Download complete
@@ -32,11 +39,12 @@ e8e87313e9cb: Pull complete
 f464fdba1cc8: Pull complete
 704733959036: Pull complete
 Digest: sha256:9d41ec0bc4f413abe9e5290c91e3edfaa215fc47e8e11df18691cfa870df6d91
-Status: Downloaded newer image for docker.io/biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
-Analysis complete for SCC_7319_B2_R1.fastq.gz
+Status: Image is up to date for docker.io/biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
+Analysis complete for SCC_7320_N_R1.fastq.gz
 starting read 2
-Analysis complete for SCC_7319_B2_R2.fastq.gz
+Analysis complete for SCC_7320_N_R2.fastq.gz
 ##### Trim low qual raw reads #####
+Sat May 8 18:03:21 PDT 2021
 Trying to pull repository quay.io/biocontainers/trimmomatic ... 
 0.39--1: Pulling from quay.io/biocontainers/trimmomatic
 a3ed95caeb02: Pulling fs layer
@@ -46,13 +54,14 @@ a3ed95caeb02: Pulling fs layer
 7ff999a2256f: Pulling fs layer
 d2ba336f2e44: Pulling fs layer
 dfda3e01f2b6: Pulling fs layer
+00cf8b9f3d2a: Waiting
 10c3bb32200b: Pulling fs layer
 8c98ebc11095: Pulling fs layer
-00cf8b9f3d2a: Waiting
-7ff999a2256f: Waiting
-10c3bb32200b: Waiting
-dfda3e01f2b6: Waiting
 d2ba336f2e44: Waiting
+dfda3e01f2b6: Waiting
+8c98ebc11095: Waiting
+10c3bb32200b: Waiting
+a3ed95caeb02: Verifying Checksum
 a3ed95caeb02: Download complete
 3aaade50789a: Verifying Checksum
 3aaade50789a: Download complete
@@ -61,18 +70,19 @@ a3ed95caeb02: Download complete
 a3ed95caeb02: Pull complete
 77c6c00e8b61: Pull complete
 3aaade50789a: Pull complete
+7ff999a2256f: Verifying Checksum
+7ff999a2256f: Download complete
 00cf8b9f3d2a: Verifying Checksum
 00cf8b9f3d2a: Download complete
-7ff999a2256f: Download complete
 d2ba336f2e44: Verifying Checksum
 d2ba336f2e44: Download complete
 00cf8b9f3d2a: Pull complete
 7ff999a2256f: Pull complete
 d2ba336f2e44: Pull complete
-dfda3e01f2b6: Verifying Checksum
-dfda3e01f2b6: Download complete
 10c3bb32200b: Verifying Checksum
 10c3bb32200b: Download complete
+dfda3e01f2b6: Verifying Checksum
+dfda3e01f2b6: Download complete
 dfda3e01f2b6: Pull complete
 10c3bb32200b: Pull complete
 8c98ebc11095: Download complete
@@ -80,15 +90,17 @@ dfda3e01f2b6: Pull complete
 Digest: sha256:e1963a7190c3fa5ede49eea5e56f1bdb3e9773358d8a778ce1b47648aba39154
 Status: Downloaded newer image for quay.io/biocontainers/trimmomatic:0.39--1
 ##### QC trimmed reads #####
+Sat May 8 19:20:58 PDT 2021
 starting read 1
 Trying to pull repository docker.io/biocontainers/fastqc ... 
 v0.11.8dfsg-2-deb_cv1: Pulling from docker.io/biocontainers/fastqc
 Digest: sha256:9d41ec0bc4f413abe9e5290c91e3edfaa215fc47e8e11df18691cfa870df6d91
 Status: Image is up to date for docker.io/biocontainers/fastqc:v0.11.8dfsg-2-deb_cv1
-Analysis complete for SCC_7319_B2_R1_trimmed.fastq.gz
+Analysis complete for SCC_7320_N_R1_trimmed.fastq.gz
 starting read 2
-Analysis complete for SCC_7319_B2_R2_trimmed.fastq.gz
+Analysis complete for SCC_7320_N_R2_trimmed.fastq.gz
 ##### Quantify abundances of the transcripts - Kallisto #####
+Sat May 8 19:24:54 PDT 2021
 Using default tag: latest
 Trying to pull repository docker.io/zlskidmore/kallisto ... 
 latest: Pulling from docker.io/zlskidmore/kallisto
@@ -101,27 +113,24 @@ a05f035593a8: Pulling fs layer
 48785e0b9deb: Pulling fs layer
 d73e1c1ce701: Pulling fs layer
 f9b6b3ca5a6b: Pulling fs layer
+22baa802233c: Waiting
 7388afd30393: Pulling fs layer
 666c9550f0fe: Pulling fs layer
-bc8c8f70fd04: Pulling fs layer
-22baa802233c: Waiting
-a05f035593a8: Waiting
-5ec8eb8d55c2: Waiting
+48785e0b9deb: Waiting
 d73e1c1ce701: Waiting
+bc8c8f70fd04: Pulling fs layer
+5ec8eb8d55c2: Waiting
 666c9550f0fe: Waiting
 bc8c8f70fd04: Waiting
-f9b6b3ca5a6b: Waiting
 7388afd30393: Waiting
-48785e0b9deb: Waiting
-05731e63f211: Verifying Checksum
-05731e63f211: Download complete
+f9b6b3ca5a6b: Waiting
 0bd67c50d6be: Verifying Checksum
 0bd67c50d6be: Download complete
-6abc03819f3e: Verifying Checksum
-6abc03819f3e: Download complete
+05731e63f211: Download complete
 a05f035593a8: Verifying Checksum
 a05f035593a8: Download complete
-5ec8eb8d55c2: Verifying Checksum
+6abc03819f3e: Verifying Checksum
+6abc03819f3e: Download complete
 5ec8eb8d55c2: Download complete
 48785e0b9deb: Verifying Checksum
 48785e0b9deb: Download complete
@@ -151,4 +160,7 @@ bc8c8f70fd04: Pull complete
 Digest: sha256:189fc12c535e6d9289ab312bc143d21f79ed352800425c4239fedd7cc5dcceb3
 Status: Downloaded newer image for docker.io/zlskidmore/kallisto:latest
 ##### QC BAM file #####
+Sat May 8 19:27:43 PDT 2021
 tba
+##### complete #####
+Sat May 8 19:28:09 PDT 2021
