@@ -25,7 +25,7 @@ Set up workspace by running `./setup-dir.sh` which will create the following nes
 
 ### Cwltool
 
-Pipeline largely relies on docker and cwltools to be installed. Make sure to have these installed prior to running this pipeline. Some examples include `pip install cwltool` and rather than `sudo apt install cwltool` in case you have multiple CWL implementations
+Pipeline largely relies on docker and cwltools to be installed. Make sure to have these installed prior to running this pipeline. Some examples include `pip install cwltool` and rather than `sudo apt install cwltool` in case you have multiple CWL implementations.
 
 ### Reference meta files
 
