@@ -1,5 +1,6 @@
 notes/*
 apps/
+venv
 venv3
 requirements.txt
 .DS_Store
