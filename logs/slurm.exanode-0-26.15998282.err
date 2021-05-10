@@ -1,0 +1,100 @@
+mkdir: cannot create directory ‘/mnt/scratch/5420’: File exists
+Started analysis of SCC_7319_GT_R1.fastq.gz
+Approx 5% complete for SCC_7319_GT_R1.fastq.gz
+Approx 10% complete for SCC_7319_GT_R1.fastq.gz
+Approx 15% complete for SCC_7319_GT_R1.fastq.gz
+Approx 20% complete for SCC_7319_GT_R1.fastq.gz
+Approx 25% complete for SCC_7319_GT_R1.fastq.gz
+Approx 30% complete for SCC_7319_GT_R1.fastq.gz
+Approx 35% complete for SCC_7319_GT_R1.fastq.gz
+Approx 40% complete for SCC_7319_GT_R1.fastq.gz
+Approx 45% complete for SCC_7319_GT_R1.fastq.gz
+Approx 50% complete for SCC_7319_GT_R1.fastq.gz
+Approx 55% complete for SCC_7319_GT_R1.fastq.gz
+Approx 60% complete for SCC_7319_GT_R1.fastq.gz
+Approx 65% complete for SCC_7319_GT_R1.fastq.gz
+Approx 70% complete for SCC_7319_GT_R1.fastq.gz
+Approx 75% complete for SCC_7319_GT_R1.fastq.gz
+Approx 80% complete for SCC_7319_GT_R1.fastq.gz
+Approx 85% complete for SCC_7319_GT_R1.fastq.gz
+Approx 90% complete for SCC_7319_GT_R1.fastq.gz
+Approx 95% complete for SCC_7319_GT_R1.fastq.gz
+Started analysis of SCC_7319_GT_R2.fastq.gz
+Approx 5% complete for SCC_7319_GT_R2.fastq.gz
+Approx 10% complete for SCC_7319_GT_R2.fastq.gz
+Approx 15% complete for SCC_7319_GT_R2.fastq.gz
+Approx 20% complete for SCC_7319_GT_R2.fastq.gz
+Approx 25% complete for SCC_7319_GT_R2.fastq.gz
+Approx 30% complete for SCC_7319_GT_R2.fastq.gz
+Approx 35% complete for SCC_7319_GT_R2.fastq.gz
+Approx 40% complete for SCC_7319_GT_R2.fastq.gz
+Approx 45% complete for SCC_7319_GT_R2.fastq.gz
+Approx 50% complete for SCC_7319_GT_R2.fastq.gz
+Approx 55% complete for SCC_7319_GT_R2.fastq.gz
+Approx 60% complete for SCC_7319_GT_R2.fastq.gz
+Approx 65% complete for SCC_7319_GT_R2.fastq.gz
+Approx 70% complete for SCC_7319_GT_R2.fastq.gz
+Approx 75% complete for SCC_7319_GT_R2.fastq.gz
+Approx 80% complete for SCC_7319_GT_R2.fastq.gz
+Approx 85% complete for SCC_7319_GT_R2.fastq.gz
+Approx 90% complete for SCC_7319_GT_R2.fastq.gz
+Approx 95% complete for SCC_7319_GT_R2.fastq.gz
+TrimmomaticPE: Started with arguments:
+ -threads 5 -phred33 -trimlog /tmp/output/03_trimmomatic/LOG_SCC_7319_GT.txt /tmp/raw-data/P2000996_02292020/FASTQ/SCC_7319_GT_R1.fastq.gz /tmp/raw-data/P2000996_02292020/FASTQ/SCC_7319_GT_R2.fastq.gz /tmp/output/03_trimmomatic/SCC_7319_GT_R1_trimmed.fastq.gz /tmp/output/03_trimmomatic/SCC_7319_GT_R1_trimmedUNPAIRED.fastq.gz /tmp/output/03_trimmomatic/SCC_7319_GT_R2_trimmed.fastq.gz /tmp/output/03_trimmomatic/SCC_7319_GT_R2_trimmedUNPAIRED.fastq.gz LEADING:30 TRAILING:30 SLIDINGWINDOW:4:30 MINLEN:90
+Input Read Pairs: 27004282 Both Surviving: 17933920 (66.41%) Forward Only Surviving: 3901623 (14.45%) Reverse Only Surviving: 1850492 (6.85%) Dropped: 3318247 (12.29%)
+TrimmomaticPE: Completed successfully
+Started analysis of SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 5% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 10% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 15% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 20% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 25% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 30% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 35% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 40% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 45% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 50% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 55% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 60% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 65% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 70% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 75% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 80% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 85% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 90% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Approx 95% complete for SCC_7319_GT_R1_trimmed.fastq.gz
+Started analysis of SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 5% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 10% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 15% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 20% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 25% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 30% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 35% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 40% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 45% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 50% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 55% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 60% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 65% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 70% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 75% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 80% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 85% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 90% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+Approx 95% complete for SCC_7319_GT_R2_trimmed.fastq.gz
+
+[quant] fragment length distribution will be estimated from the data
+[index] k-mer length: 31
+[index] number of targets: 228,048
+[index] number of k-mers: 140,910,530
+[index] number of equivalence classes: 969,562
+[quant] running in paired-end mode
+[quant] will process pair 1: /tmp/output/03_trimmomatic/SCC_7319_GT_R1_trimmed.fastq.gz
+                             /tmp/output/03_trimmomatic/SCC_7319_GT_R2_trimmed.fastq.gz
+[quant] finding pseudoalignments for the reads ... done
+[quant] processed 17,933,920 reads, 9,949,320 reads pseudoaligned
+[quant] estimated average fragment length: 167.826
+[   em] quantifying the abundances ... done
+[   em] the Expectation-Maximization algorithm ran for 1,472 rounds
+

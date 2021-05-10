@@ -1,4 +1,26 @@
+notes/*
+apps/
 venv
+venv3
+requirements.txt
+.DS_Store
+
+previous_README.md
+notes_jl.md
+
+scripts/.DS_Store
+scripts/01_process-bulkrna/.DS_Store
+scripts/01_process-bulkrna/previous/
+scripts/03_compare-bulk_scrna/scrna2bulk/*_cache
+scripts/03_compare-bulk_scrna/scrna2bulk/*_files
 
 raw-data/*
 !raw-data/README.md
+
+data/.DS_Store
+data/01_process-bulkrna/*
+
+almudena-data
+
+data/02_process-scrna/*
+!data/02_process-scrna/README.md
