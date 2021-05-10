@@ -122,7 +122,7 @@ colnames(flat_matrix_BULK_GT) <- c('ensID',bulkgt_base_names)
 
 # Part 1. Establishing time and temp impact (bulk RNA-seq vs ground truth bulk RNA-seq)
 
-```{r, message=FALSE, echo=FALSE}
+```
 ############################
 # Create count matrices for DGE
 ############################
@@ -199,10 +199,10 @@ flat_matrix_ALL <- column_to_rownames(flat_matrix_ALL, var='ensID')
 # Grab samples in order
 samples <- colnames(flat_matrix_ALL)
 # Create condition vector and type
-condition <- c('bulk','bulk', 'mech', 'mech', 'enz', 'enz')
-meta_data <- as.data.frame(condition)
+condition <- c('bulk','bulk', 'sc', 'sc', 'sc', 'sc') 
+meta_data <- as.data.frame(cbind(condition))
 rownames(meta_data) <- samples
-
+meta_data
 #### consider removing
 # # Remove gene rows that are lowly expr in samples - filter low counts <10 ct
 # flat_matrix_ctrlBULK <- flat_matrix_ctrlBULK[rowSums(flat_matrix_ctrlBULK > 10) != 0, ]
@@ -214,6 +214,7 @@ rownames(meta_data) <- samples
 #####################
 
 dds_obj_ALL <- DESeqDataSetFromMatrix(countData = flat_matrix_ALL, colData = meta_data, design = ~ condition)
+
 # DGE based on neg binom distr
 dds_ALL <- DESeq(dds_obj_ALL, test ='Wald')
 res_ALL <- results(dds_ALL, alpha=THRES, pAdjustMethod = 'BH', test='Wald')
@@ -239,7 +240,7 @@ Now let's look at the log10(counts) of the data
     # estimating size factors is auto in DESEQ() but 
     # we have to do this manually to extract the normalized count matrix it produces
     # Normalization method= deseq median or ratios method
-dds <- DESeqDataSetFromMatrix(countData = flat_matrix_ALL, colData = meta_data, design = ~ condition)
+dds <- DESeqDataSetFromMatrix(countData = flat_matrix_ALL, colData = meta_data, design = ~condition)
 dds<- estimateSizeFactors(dds)
 ('size factors applied for norm were:')
 (sizeFactors(dds)) #good for record keeping
@@ -268,9 +269,8 @@ gathered <- top25_norm %>%
 gathered <- inner_join(m_tibble, gathered,by="samplename")
 ggplot(gathered) +
         geom_point(aes(x = gene, y = normalized_counts, color = condition)) +
-        scale_y_log10() +
         xlab("Genes (Ranked)") +
-        ylab("log10 Normalized Counts") +
+        ylab("Normalized Counts") +
         ggtitle("Top 25 Significant DE Genes") +
         theme_bw() +
 	theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
@@ -282,7 +282,7 @@ print('Heatmap of all normalized counts')
 # Reformat 
 annotation <- m_tibble %>%data.frame(row.names = "samplename")
 mat<- top25_norm %>% column_to_rownames(var = "gene")
-pheatmap(log10(mat), 
+pheatmap(mat, 
          cluster_rows = T,
          cluster_cols = T,
          show_rownames = T,

@@ -1,0 +1,207 @@
+---
+title: "WCS-SD"
+author: "Jordan Lee"
+date: "3/6/2020"
+output: html_document
+---
+
+# Purpose
+
+Updated on 5/20/20 with outputs from Kallisto for bulk RNA processing
+
+Notebook will showcase the comparisons we are interested in presenting at the Gray Group presentations on May 21, 2020.
+
+# Analysis Preprocessing
+
+```{r, cache=TRUE}
+# Disclaimer: hardcoded names of patients in flat_matrix
+# hard coded condition vector
+####################
+
+file_bulk_all <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/01_process-bulkrna/06_matrices_postkallisto/Datan.txt'
+
+countsMECH_1_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Mech/'
+countsENZ_1_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7319_Enz/'
+countsMECH_2_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7320_Mech/'
+countsENZ_2_matrix_dir <- '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/02_process-scrna/7320_Enz/'
+THRES = 0.01
+output_sortedGenes = '/Users/leejor/Ellrott_Lab/04_CSBC/cell-dissociation/data/03_compare-bulk_scrna/scrna2bulk/geneOrdered_results.csv'
+
+# bulk_base_names <- c('bulk_7319', 'bulk_7320')
+# bulkgt_base_names <- c('bulkGT_7319', 'bulkGT_7320')
+# bulknorm_base_names <- c('bulk_norm_7319', 'bulk_norm_7320')
+scmech_base_names <- c('sc_mech_7319', 'sc_mech_7320')
+scenz_base_names <- c('sc_enz_7319', 'sc_enz_7320')
+####################
+```
+
+```{r, message=FALSE}
+library(Seurat)
+library(dplyr)
+library(Matrix)
+library(gdata)
+library(DESeq2)
+library(ggplot2)
+library(pheatmap)
+library(vsn)
+library(RColorBrewer)
+library(readr)
+library(tibble)
+library(tidyverse)
+library(ggrepel)
+```
+
+# Create combined matrices of mech and enz 
+
+Read in files and create pseudo-bulk (take the sum of raw gene counts across all cell barcodes and report that as the pseudo-bulk gene count). Preprocessing steps shown in `.Rmd`
+
+```{r, cache=TRUE}
+###############################
+# Create combined count matrices
+###############################
+# Read in files
+counts_mech1 <- Read10X(data.dir = countsMECH_1_matrix_dir, gene.column = 2)
+counts_enz1 <- Read10X(data.dir = countsENZ_1_matrix_dir, gene.column = 2)
+counts_mech2 <- Read10X(data.dir = countsMECH_2_matrix_dir,gene.column = 2)
+counts_enz2 <- Read10X(data.dir = countsENZ_2_matrix_dir, gene.column = 2)
+# convert to dense matrix
+counts_mech1 <- as.matrix(counts_mech1) 
+counts_enz1 <- as.matrix(counts_enz1) 
+counts_mech2 <- as.matrix(counts_mech2) 
+counts_enz2 <- as.matrix(counts_enz2) 
+# Flaten counts (sum all cells for a gene) + combine matrices
+mech1 <- as.data.frame(rowSums(counts_mech1))
+enz1 <- as.data.frame(rowSums(counts_enz1)) 
+mech2 <- as.data.frame(rowSums(counts_mech2)) 
+enz2 <- as.data.frame(rowSums(counts_enz2)) 
+```
+
+
+```{r}
+########################
+# Read in bulk samples and create a unified count matrix
+########################
+# Bulk
+b1 <- read.table(file=file_bulk_all , sep='\t', header=TRUE)
+colnames(b1)[1]<- 'gene'
+```
+
+
+
+# Part 1: bulk GT vs bulk B 
+
+### A. Condition only affects
+
+An analysis we can't run is split by patient for bulk gt vs bulk b - because we must have at least a sample size of 2 for each condition. `The design matrix has the same number of samples and coefficients to fit, so estimation of dispersion is not possible.`
+
+If we still want to investigate this trend we can only compare bulk gt vs bulk b when we group together patients and this analysis is included in this section.
+
+
+```{r}
+############################
+# Create count matrices for DGE
+############################
+# Grab only samples of interest
+flat_matrix_ctrlBULK <- b1[,c("SCC_7319_B2","SCC_7319_GT","SCC_7320_B2","SCC_7320_GT")]
+# Replace NA --> 0 
+flat_matrix_ctrlBULK[is.na(flat_matrix_ctrlBULK)]=0
+
+############################
+# Create meta data table of which samples are which treatment - needed for Deseq2
+#############################
+# Grab samples in order
+samples <- colnames(flat_matrix_ctrlBULK)
+
+# Create condition vector and type
+condition <- c('bulk', 'gt', 'bulk','gt')
+meta_data <- as.data.frame(cbind(condition) )
+rownames(meta_data) <- samples
+meta_data
+```
+
+```{r}
+mat <- data.matrix(flat_matrix_ctrlBULK)
+m_tibble <- meta_data %>% 
+  rownames_to_column(var="samplename") %>% 
+  as_tibble()
+annotation <- m_tibble %>%data.frame(row.names = "samplename")
+mat <-log(mat+1)
+pheatmap(mat[1:30000,], 
+         cluster_rows = T,
+         cluster_cols = T,
+         show_rownames = T,
+         border_color = NA,
+         annotation = annotation, 
+         fontsize = 5)
+```
+
+
+
+# Part 2A. Establish that single cell protocol does impact gexp
+
+To accomblish this we will see if there is a difference in gene expression between bulk (combined GT,B) vs sc (combined enz and mech)
+
+using wald test (because only 2 factor levels). currently not incorporating batch in linear model
+
+```{r, message=FALSE, echo=FALSE}
+############################
+# Create count matrices for DGE
+############################
+# Combine mech samples
+flat_matrix_mech <- merge(mech1, mech2, by =0, all=TRUE) #merge by rowname
+colnames(flat_matrix_mech) <- c("gene",scmech_base_names)
+# Combine enz samples
+flat_matrix_enz <- merge(enz1, enz2, by =0, all=TRUE) #merge by rowname
+colnames(flat_matrix_enz) <- c("gene",scenz_base_names)
+# Combine mech and enz samples
+flat_matrix_ALL <- merge(flat_matrix_mech, flat_matrix_enz, by ='gene', all=TRUE) #merge by rowname
+
+# Grab only samples of interest of bulk
+flat_matrix_ctrlBULK <- b1[,c("gene","SCC_7319_B2","SCC_7319_GT","SCC_7320_B2","SCC_7320_GT")]
+
+# add in bulk
+flat_matrix_ALL <- merge(flat_matrix_ctrlBULK, flat_matrix_ALL, by='gene', all=TRUE)
+# Replace NA --> 0 
+flat_matrix_ALL[is.na(flat_matrix_ALL)]=0
+# Now that have combined properly fix so that rowname are genes
+flat_matrix_ALL <- column_to_rownames(flat_matrix_ALL, var='gene')
+```
+
+```{r}
+############################
+# Create meta data table of which samples are which treatment - needed for Deseq2
+#############################
+# Grab samples in order
+samples <- colnames(flat_matrix_ALL)
+# Create condition vector and type
+condition <- c('bulk','bulk','bulk','bulk', 'sc', 'sc', 'sc', 'sc') 
+meta_data <- as.data.frame(cbind(condition))
+rownames(meta_data) <- samples
+meta_data
+#### consider removing
+# # Remove gene rows that are lowly expr in samples - filter low counts <10 ct
+# flat_matrix_ctrlBULK <- flat_matrix_ctrlBULK[rowSums(flat_matrix_ctrlBULK > 10) != 0, ]
+```
+
+```{r}
+mat <- data.matrix(flat_matrix_ALL)
+m_tibble <- meta_data %>% 
+  rownames_to_column(var="samplename") %>% 
+  as_tibble()
+annotation <- m_tibble %>%data.frame(row.names = "samplename")
+mat <-log(mat+1)
+pheatmap(mat[1:30000,], 
+         cluster_rows = T,
+         cluster_cols = T,
+         show_rownames = F,
+         border_color = NA,
+         annotation = annotation, 
+         fontsize = 5)
+```
+
+
+
+
+
+
+
