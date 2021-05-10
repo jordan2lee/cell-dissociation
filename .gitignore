@@ -23,5 +23,3 @@ almudena-data
 
 data/02_process-scrna/*
 !data/02_process-scrna/README.md
-
-data.tar.gz
