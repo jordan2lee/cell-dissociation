@@ -1,1 +1,1 @@
-Original unchanged data stored here (example sequecning data)
+Original unchanged data stored here (example sequencing data)
